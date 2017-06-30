@@ -10,6 +10,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/hm_framework" />
+            <option value="$PROJECT_DIR$/onekeyshare" />
+            <option value="$PROJECT_DIR$/sharesdk" />
           </set>
         </option>
         <option name="myModules">
@@ -17,6 +19,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/hm_framework" />
+            <option value="$PROJECT_DIR$/onekeyshare" />
+            <option value="$PROJECT_DIR$/sharesdk" />
           </set>
         </option>
       </GradleProjectSettings>

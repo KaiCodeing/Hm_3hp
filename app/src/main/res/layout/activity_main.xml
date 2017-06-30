@@ -1,16 +1,160 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/father"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.hemaapp.activity.MainActivity">
+    android:background="#F3F3F7"
+    android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#DADADA"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F8F8F8"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/radiobutton0"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:checked="true"
+                android:drawablePadding="5dp"
+                android:button="@null"
+                android:drawableTop="@drawable/main_select_zb"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="招标"
+                android:textColor="@drawable/main_text_change"
+                android:textSize="@dimen/textsize_7"
+                />
+            <!---->
+            <!--android:button="@drawable/main_bg_button"-->
+            <RadioButton
+                android:id="@+id/radiobutton1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/main_zba_select"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="中标"
+                android:button="@null"
+                android:textColor="@drawable/main_text_change"
+                android:textSize="@dimen/textsize_7"
+                />
+
+
+            <RadioButton
+                android:id="@+id/radiobutton2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/main_dz_select"
+                android:gravity="center"
+                android:button="@null"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="定制"
+                android:textColor="@drawable/main_text_change"
+                android:textSize="@dimen/textsize_7"
+                />
+            <RadioButton
+                android:id="@+id/radiobutton3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/main_gz_select"
+                android:gravity="center"
+                android:button="@null"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="关注"
+                android:textColor="@drawable/main_text_change"
+                android:textSize="@dimen/textsize_7"
+                />
+            <RadioButton
+                android:id="@+id/radiobutton4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/main_my_select"
+                android:gravity="center"
+                android:button="@null"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="我的"
+                android:textColor="@drawable/main_text_change"
+                android:textSize="@dimen/textsize_7"
+                />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/main_point"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="30dp"
+
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize_5"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F4F4">
+    <include layout="@layout/title_right_left"></include>
+    <EditText
+        android:id="@+id/input_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="8"
+        android:gravity="left"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:textSize="@dimen/textsize_8"
+        android:hint="请输入您对我们产品的意见，我们将不断优化产品体验"
+        />
+    <EditText
+        android:id="@+id/input_tel"
+        android:drawableLeft="@mipmap/sugg_tel_img"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@color/white"
+        android:layout_marginTop="15dp"
+        android:hint="请输入您的电话号码"
+        android:textSize="@dimen/textsize_7"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:inputType="phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"/>
+    <TextView
+        android:id="@+id/login_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_8"
+        android:gravity="center"
+        android:background="@drawable/button_title_bg"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
+</LinearLayout>

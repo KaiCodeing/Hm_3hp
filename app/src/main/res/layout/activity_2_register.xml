@@ -84,7 +84,7 @@
                     android:background="@null"
                     android:layout_marginLeft="20dp"
                     android:singleLine="true"
-                    android:text="/XXX"
+                    android:hint="输入姓名"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:gravity="right"
@@ -130,7 +130,7 @@
                     android:background="@null"
                     android:layout_marginLeft="20dp"
                     android:singleLine="true"
-                    android:text="/XXX"
+                    android:hint="选择性别"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:gravity="right"
@@ -177,7 +177,7 @@
                     android:background="@null"
                     android:layout_marginLeft="20dp"
                     android:singleLine="true"
-                    android:text="/XXX"
+                    android:text="选择年龄"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:gravity="right"
@@ -223,8 +223,8 @@
                     android:background="@null"
                     android:layout_marginLeft="20dp"
                     android:singleLine="true"
-                    android:text="/XXX"
                     android:paddingTop="15dp"
+                    android:hint="选择地区"
                     android:paddingBottom="15dp"
                     android:gravity="right"
                     android:textColor="#999999"
@@ -268,7 +268,7 @@
                     android:background="@null"
                     android:layout_marginLeft="20dp"
                     android:singleLine="true"
-                    android:text="/XXX"
+                   android:hint="输入公司名称"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:gravity="right"
@@ -312,7 +312,7 @@
                     android:background="@null"
                     android:layout_marginLeft="20dp"
                     android:singleLine="true"
-                    android:text="/XXX"
+                    android:hint="输入职务"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:gravity="right"
@@ -356,7 +356,7 @@
                     android:background="@null"
                     android:layout_marginLeft="20dp"
                     android:singleLine="true"
-                    android:text="/XXX"
+                    android:hint="输入邮箱"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:gravity="right"
@@ -436,8 +436,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
+
                     android:layout_marginTop="15dp" >
                 </com.hemaapp.thp.view.FlowLayout>
             </LinearLayout>
@@ -468,8 +467,6 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_marginTop="15dp" >
                 </com.hemaapp.thp.view.FlowLayout>
                 <View

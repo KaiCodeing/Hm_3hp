@@ -131,7 +131,6 @@
         android:maxLength="16"
         android:singleLine="true"
         android:password="true"
-        android:inputType="phone"
         android:textSize="@dimen/textsize_7"
         android:hint="请输入原密码"
         />
@@ -152,9 +151,8 @@
         android:maxLength="16"
         android:singleLine="true"
         android:password="true"
-        android:inputType="phone"
         android:textSize="@dimen/textsize_7"
-        android:hint="请输入6-16位新密码"
+        android:hint="请输入8-16位新密码"
         />
     <TextView
         android:id="@+id/login_text"

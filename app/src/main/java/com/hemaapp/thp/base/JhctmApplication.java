@@ -40,7 +40,7 @@ public class JhctmApplication extends HemaApplication {
         XtomConfig.IMAGELOAD_ONLYWIFI = "true".equals(iow);
         XtomConfig.MAX_IMAGE_SIZE = 200;
         XtomConfig.DIGITAL_CHECK = true;
-        XtomConfig.DATAKEY = "yrSFqyE8tQBXrPrt";
+        XtomConfig.DATAKEY = "bY3kj9DKBuKsiETx";
         XtomLogger.i(TAG, "onCreate");
         initImageLoader();
         super.onCreate();

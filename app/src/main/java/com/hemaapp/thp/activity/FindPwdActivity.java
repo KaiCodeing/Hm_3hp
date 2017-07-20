@@ -13,15 +13,20 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hemaapp.thp.R;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
+import com.hemaapp.thp.R;
 import com.hemaapp.thp.base.JhActivity;
 import com.hemaapp.thp.base.JhHttpInformation;
 import com.hemaapp.thp.base.JhctmApplication;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import xtom.frame.XtomActivityManager;
+import xtom.frame.XtomConfig;
+import xtom.frame.util.Md5Util;
 
 /**
  * Created by lenovo on 2017/6/28.
@@ -113,6 +118,11 @@ public class FindPwdActivity extends JhActivity {
                     showTextDialog("两次输入手机号码不一致，\n请确认");
                     return;
                 }
+                String password = input_psw.getText().toString();
+                getNetWorker().passwordReset(temp_token, "1", Md5Util.getMd5(XtomConfig.DATAKEY
+                        + Md5Util.getMd5(password)),input_name.getText().toString());
+                break;
+            case PASSWORD_RESET:
                 showTextDialog("设置新密码成功");
                 next_button.postDelayed(new Runnable() {
                     @Override
@@ -123,14 +133,7 @@ public class FindPwdActivity extends JhActivity {
                     }
 
                 }, 1000);
-//                Intent intent = new Intent(FindPwdActivity.this,SetPasswordActivity.class);
-//                intent.putExtra("temp_token",temp_token);
-//                intent.putExtra("code",yanzheng_text.getText().toString());
-//                intent.putExtra("username",userName);
-//                intent.putExtra("keytype",keytype);
-//                startActivity(intent);
                 break;
-
             default:
 
                 break;
@@ -145,6 +148,7 @@ public class FindPwdActivity extends JhActivity {
                 showTextDialog("手机号未注册！");
                 break;
             case CODE_GET:
+            case PASSWORD_RESET:
                 showTextDialog(hemaBaseResult.getMsg());
                 break;
             case CODE_VERIFY:
@@ -253,6 +257,17 @@ public class FindPwdActivity extends JhActivity {
                     showTextDialog("输入新密码不能为空!");
                     return;
                 }
+                if (input_psw.getText().toString().trim().length() >= 8 && input_psw.getText().toString().trim().length() <= 16) {
+
+                } else {
+                    showTextDialog("密码输入不正确\n请输入8-16位密码");
+                    return;
+                }
+                if (judgeContainsStr(input_psw.getText().toString())) {
+                } else {
+                    showTextDialog("密码请输入数字和字母的组合");
+                    return;
+                }
                 String codeString = yanzheng_text.getText().toString();
                 getNetWorker().codeVerify(username_text_add.getText().toString(),
                         codeString);
@@ -269,6 +284,21 @@ public class FindPwdActivity extends JhActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 该方法主要使用正则表达式来判断字符串中是否包含字母
+     *
+     * @param cardNum 待检验的原始卡号
+     * @return 返回是否包含
+     * @author fenggaopan 2015年7月21日 上午9:49:40
+     */
+    public boolean judgeContainsStr(String cardNum) {
+        String regex = ".*[a-zA-Z]+.*";
+        String num = ".*[0-9]+.*";
+        Matcher m = Pattern.compile(regex).matcher(cardNum);
+        Matcher n = Pattern.compile(num).matcher(cardNum);
+        return m.matches() && n.matches();
     }
 
     private class TimeThread extends Thread {

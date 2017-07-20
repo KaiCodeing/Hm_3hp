@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F4F4"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_right_image"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/vip_type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="40dp">
+
+                <RadioGroup
+                    android:id="@+id/vip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/vip_sup"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:button="@drawable/select_check_bg"
+                        android:checked="true"
+                        android:text="  招标公告"
+                        android:textColor="#555555" />
+
+                    <RadioButton
+                        android:id="@+id/vip_op"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_weight="1"
+                        android:button="@drawable/select_check_bg"
+                        android:text="  中标信息"
+                        android:textColor="#555555" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_tel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:src="@mipmap/search_loaction_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="地区"
+                    android:textColor="#2F2F2F"
+                    android:textSize="@dimen/textsize_8" />
+
+                <TextView
+                    android:id="@+id/input_city"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@mipmap/re_sanjiao_img"
+                    android:gravity="right"
+                    android:hint="请选择地区"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:singleLine="true"
+                    android:textColor="#555555"
+                    android:textColorHint="#555555"
+                    android:textSize="@dimen/textsize_7" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2F2F2F"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="@dimen/textsize_8"
+                    android:text="关键词"/>
+                <EditText
+                    android:id="@+id/search_input"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/search_k"
+                    android:drawableLeft="@mipmap/re_search_img"
+                    android:drawablePadding="5dp"
+                    android:hint="输入关键字:如土建、水电等"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/textsize_7" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/search_hua_img"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="类型可多选"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#2F2F2F"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/textsize_8" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:singleLine="true"
+                    android:text="/XXX"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:gravity="right"
+                    android:textColor="#999999"
+                    android:textSize="@dimen/textsize_8"
+                    android:layout_marginRight="35dp"
+                    android:drawablePadding="10dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textColor="#2F2F2F"
+                    android:layout_height="wrap_content"
+                    android:text="工程信息"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <com.hemaapp.thp.view.FlowLayout
+                    android:id="@+id/tag_fly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="15dp" >
+                </com.hemaapp.thp.view.FlowLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textColor="#2F2F2F"
+                    android:layout_height="wrap_content"
+                    android:text="采购信息"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <com.hemaapp.thp.view.FlowLayout
+                    android:id="@+id/cg_fly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="15dp" >
+                </com.hemaapp.thp.view.FlowLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/search_history_img"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="历史搜索"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#2F2F2F"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/textsize_8" />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:singleLine="true"
+                    android:text="/XXX"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:gravity="right"
+                    android:textColor="#999999"
+                    android:textSize="@dimen/textsize_8"
+                    android:layout_marginRight="35dp"
+                    android:drawablePadding="10dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <com.hemaapp.thp.view.FlowLayout
+                    android:id="@+id/history_fly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="15dp" >
+                </com.hemaapp.thp.view.FlowLayout>
+                <TextView
+                    android:id="@+id/add_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginTop="20dp"
+                    android:text="清空"
+                    android:textColor="@color/backgroud_title"
+                    android:textSize="@dimen/textsize_8"
+                    android:gravity="center"
+                    android:background="@drawable/exit_sh_"
+                    android:paddingTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:paddingBottom="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

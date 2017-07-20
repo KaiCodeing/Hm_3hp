@@ -8,8 +8,17 @@ android {
         applicationId "com.hemaapp.thp"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 1000
+        versionName "1.0.0.0"
+    }
+    signingConfigs {
+        // your debug keystore
+        debug {
+            keyAlias 'hm_thp'
+            keyPassword '123456Aa'
+            storePassword '123456Aa'
+            storeFile file("hm_thp.jks")
+        }
     }
     buildTypes {
         release {

@@ -47,11 +47,13 @@
         android:resizeable="true"
         android:smallScreens="true" />
     <application
+        android:name="com.hemaapp.thp.base.JhctmApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
         <meta-data
@@ -156,20 +158,61 @@
             </intent-filter>
         </receiver>
         <!-- 个推SDK配置结束 -->
+        <!-- 支付宝支付(如果没有安装客户端,调网页版) -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <!-- 支付宝支付end -->
+        <!-- shareSDK相关 -->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!--
+            	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
+            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
+            -->
+            <intent-filter>
+                <data android:scheme="db-7janx53ilz11gbs" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 微信分享回调 -->
+        <activity
+            android:name="com.hemaapp.thp.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.hemaapp.thp.wxapi.WXPayEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- shareSDK相关end -->
         <!-- 高德地图ApiKey -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="f6ed2a41a261b7ca5b0827b1408de9dc" />
+            android:value="49b883071ce9a89135f05e0ceba75f7b" />
         <!-- <meta-data
                   android:name="com.amap.api.v2.apikey"
                   android:value="d8b9c259850bbd223806426aca09506b" />-->
         <!-- 本机 -->
-        <activity android:name="com.hemaapp.thp.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name="com.hemaapp.thp.activity.MainActivity"
+            android:screenOrientation="portrait">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.hemaapp.thp.activity.AdsActivity"
@@ -179,57 +222,106 @@
         <activity
             android:name="com.hemaapp.thp.activity.StartActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hemaapp.thp.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.LoginActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.Register1Activity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name="com.hemaapp.thp.activity.WebViewActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.Register1Activity"
+        <activity
+            android:name="com.hemaapp.thp.activity.FindPwdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name="com.hemaapp.thp.activity.Register2Activity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name="com.hemaapp.thp.activity.SelectProvinceActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.WebViewActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.SelectCityActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.FindPwdActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.SelectCountyActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.Register2Activity"
+        <activity
+            android:name="com.hemaapp.thp.activity.CommonVipActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.SelectProvinceActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.VipOperationActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.SelectCityActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.ChangePWDActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name="com.hemaapp.thp.activity.SettingActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.SelectCountyActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.SuggestionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name="com.hemaapp.thp.activity.InformationActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.CommonVipActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name="com.hemaapp.thp.activity.SearchResultActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.VipOperationActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.MessageListActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.hemaapp.thp.activity.ChangePWDActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name="com.hemaapp.thp.activity.SettingActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name="com.hemaapp.thp.activity.SuggestionActivity"
+        <activity
+            android:name="com.hemaapp.thp.activity.MessageActivity"
             android:screenOrientation="portrait">
 
         </activity>

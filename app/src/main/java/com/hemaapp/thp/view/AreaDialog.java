@@ -211,6 +211,9 @@ public class AreaDialog extends XtomObject implements OnWheelChangedListener {
     public String getCityName() {
         return mCurrentProviceName + " " + mCurrentCityName + " " + mCurrentDistrictName;
     }
+    public String getCityJGName() {
+        return mCurrentProviceName + "," + mCurrentCityName + "," + mCurrentDistrictName;
+    }
 
     public String getId() {
         String id = "";

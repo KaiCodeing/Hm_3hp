@@ -71,6 +71,13 @@ public class MainActivity extends JhFragmentActivity {
         }
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopPush();
+    }
+
     @Override
     protected void getExras() {
 

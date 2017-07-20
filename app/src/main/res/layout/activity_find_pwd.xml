@@ -130,8 +130,6 @@
         android:drawablePadding="10dp"
         android:maxLength="16"
         android:singleLine="true"
-        android:password="true"
-        android:inputType="phone"
         android:textSize="@dimen/textsize_7"
         android:hint="请输入注册姓名"
         />
@@ -152,7 +150,6 @@
         android:maxLength="16"
         android:singleLine="true"
         android:password="true"
-        android:inputType="phone"
         android:textSize="@dimen/textsize_7"
         android:hint="请输入新密码"
         />

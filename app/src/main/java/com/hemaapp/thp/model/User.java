@@ -53,11 +53,10 @@ public class User extends HemaUser {
         if (jsonObject != null) {
             try {
                 id = get(jsonObject, "id");
-
-                username = get(jsonObject, "username");
+                username = get(jsonObject, "gctypeid");
                 email = get(jsonObject, "email");
-                nickname = get(jsonObject, "nickname");
-                mobile = get(jsonObject, "mobile");
+                nickname = get(jsonObject, "name");
+                mobile = get(jsonObject, "age");
                 password = get(jsonObject, "password");
                 charindex = get(jsonObject, "charindex");
                 sex = get(jsonObject, "sex");
@@ -68,29 +67,29 @@ public class User extends HemaUser {
                 lat = get(jsonObject, "lat");
                 regdate = get(jsonObject, "regdate");
                 score = get(jsonObject, "score");
-                feeaccount = get(jsonObject, "collectcount");
-                birthday = get(jsonObject,"birthday");
-                role = get(jsonObject,"role");
-                company = get(jsonObject,"compony");
-                top_week = get(jsonObject,"top_week");
-                top_year = get(jsonObject,"top_year");
-                backimg = get(jsonObject,"backimg");
-                noticecount = get(jsonObject, "noticecount");
-                visitorcount = get(jsonObject, "visitorcount");
-                fancount = get(jsonObject, "fancount");
-                followcount = get(jsonObject, "followcount");
-                blogcount = get(jsonObject, "blogcount");
-                followflag = get(jsonObject, "bank");
-                signinflag = get(jsonObject, "bankcard");
-                level_exp = get(jsonObject, "alipayname");
-                level_name = get(jsonObject, "bankname");
-                level_imgurl = get(jsonObject, "bankuser");
-                selfsign = get(jsonObject, "post");
-                contisignintimes = get(jsonObject, "client_text");
-                expiredflag = get(jsonObject, "notice_switch");
-                score = get(jsonObject, "score");
+            //    feeaccount = get(jsonObject, "age");
+                birthday = get(jsonObject,"email");
+                role = get(jsonObject,"address");
+                company = get(jsonObject,"company");
+                top_week = get(jsonObject,"province");
+                top_year = get(jsonObject,"city");
+                backimg = get(jsonObject,"area");
+                noticecount = get(jsonObject, "position");
+                visitorcount = get(jsonObject, "gctype");
+                fancount = get(jsonObject, "cgtype");
+                followcount = get(jsonObject, "cgtypeid");
+                blogcount = get(jsonObject, "typekeyword");
+                followflag = get(jsonObject, "commontime");
+                signinflag = get(jsonObject, "commontimeend");
+                level_exp = get(jsonObject, "advancetime");
+                level_name = get(jsonObject, "advancetimeend");
+                level_imgurl = get(jsonObject, "buytype");
+                selfsign = get(jsonObject, "pushtime");
+                contisignintimes = get(jsonObject, "pushtype");
+                expiredflag = get(jsonObject, "pushemail");
+                score = get(jsonObject, "pushkeywords");
                 //
-                feeaccount = get(jsonObject, "client_type");
+                feeaccount = get(jsonObject, "member");
                 log_i(toString());
             } catch (JSONException e) {
                 throw new DataParseException(e);

@@ -11,6 +11,7 @@ import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.thp.R;
 import com.hemaapp.thp.base.JhActivity;
+import com.hemaapp.thp.base.JhctmApplication;
 
 /**
  * Created by lenovo on 2017/6/30.
@@ -32,27 +33,33 @@ public class SuggestionActivity extends JhActivity {
 
     @Override
     protected void callBeforeDataBack(HemaNetTask hemaNetTask) {
-
+        showProgressDialog("提交意见...");
     }
 
     @Override
     protected void callAfterDataBack(HemaNetTask hemaNetTask) {
-
+        cancelProgressDialog();
     }
 
     @Override
     protected void callBackForServerSuccess(HemaNetTask hemaNetTask, HemaBaseResult hemaBaseResult) {
-
+        showTextDialog("提交成功!");
+        next_button.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, 1000);
     }
 
     @Override
     protected void callBackForServerFailed(HemaNetTask hemaNetTask, HemaBaseResult hemaBaseResult) {
-
+        showTextDialog(hemaBaseResult.getMsg());
     }
 
     @Override
     protected void callBackForGetDataFailed(HemaNetTask hemaNetTask, int i) {
-
+        showTextDialog("提交失败，请稍后重试！");
     }
 
     @Override
@@ -86,16 +93,21 @@ public class SuggestionActivity extends JhActivity {
             public void onClick(View v) {
                 String content = input_content.getText().toString();
                 String tel = input_tel.getText().toString();
-                if (isNull(content))
-                {
+                if (isNull(content)) {
                     showTextDialog("请输入意见");
                     return;
                 }
-                if (isNull(tel))
-                {
+                if (isNull(tel)) {
                     showTextDialog("请输入您的电话号码");
                     return;
                 }
+                String mobile = "\\d{11}";// 只判断11位
+                if (!tel.matches(mobile)) {
+                    showTextDialog("您输入的手机号不正确");
+                    return;
+                }
+                String token = JhctmApplication.getInstance().getUser().getToken();
+                getNetWorker().adviceAdd(token, content, tel);
             }
         });
     }

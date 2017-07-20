@@ -15,14 +15,14 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/button_title_bg"
+            android:background="@drawable/indust_select_bg"
             android:gravity="center"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:text="糖尿病"
-            android:textColor="#FFFFFF"
+            android:text="XXX"
+            android:textColor="@color/indust"
             android:textSize="@dimen/textsize_7" />
 
     

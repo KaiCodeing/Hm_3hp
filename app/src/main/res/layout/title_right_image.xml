@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/backgroud_title">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|left"
+        android:background="@null"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:src="@mipmap/logo_back_img"
+
+        />
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="搜索结果"
+
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_8" />
+
+
+    <ImageButton
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:src="@mipmap/tite_search_img"
+        android:background="@null"
+        android:paddingRight="20dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_8" />
+
+    <Button
+        android:id="@+id/next_button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center"
+        android:background="@null"
+        android:paddingLeft="25dp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:text="确定"
+        android:textColor="@color/backgroud_title"
+        android:textSize="@dimen/textsize_7" />
+</FrameLayout>

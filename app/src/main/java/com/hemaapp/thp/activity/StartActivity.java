@@ -206,6 +206,7 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
             XtomSharedPreferencesUtil.save(application, "city", aMapLocation.getCity());
             XtomSharedPreferencesUtil.save(application, "district", aMapLocation.getProvince()+aMapLocation.getCity());
             XtomSharedPreferencesUtil.save(application, "position", aMapLocation.getProvince()+","+aMapLocation.getCity()+","+aMapLocation.getDistrict());
+            log_i("定位成功：" + XtomSharedPreferencesUtil.get(mContext,"position"));
         } else {
             startLocation();
         }
@@ -354,7 +355,12 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
      * @返回值: void
      */
     private void toMain() {
-       Intent intent = new Intent(StartActivity.this, MainActivity.class);
+
+       Intent intent ;
+        if (isNull(XtomSharedPreferencesUtil.get(mContext,"cityselect")))
+           intent = new Intent(StartActivity.this, SelectProvinceActivity.class);
+        else
+            intent = new Intent(StartActivity.this, MainActivity.class);
         //Intent intent = new Intent(StartActivity.this, SearchActivity_Map.class);
         intent.putExtra("fromNotification", fromNotification);
         log_i("启动页的信息是什么-----------"+fromNotification);

@@ -72,9 +72,12 @@ public class LoginActivity extends JhActivity {
         JhHttpInformation information = (JhHttpInformation) hemaNetTask.getHttpInformation();
         switch (information) {
             case CLIENT_LOGIN:
+                if (check_pwd.isChecked())
+                    XtomSharedPreferencesUtil.save(mContext, "autoLogin", "yes");
+                else
+                    XtomSharedPreferencesUtil.save(mContext, "autoLogin", "no");
                 HemaArrayResult<User> userArrayResult = (HemaArrayResult<User>) hemaBaseResult;
                 User user = userArrayResult.getObjects().get(0);
-
                 getApplicationContext().setUser(user);
                 String username = hemaNetTask.getParams().get("username");
                 String password = hemaNetTask.getParams().get("password");
@@ -95,7 +98,11 @@ public class LoginActivity extends JhActivity {
      * @返回值: void
      */
     private void GotoMain() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent;
+        if (isNull(XtomSharedPreferencesUtil.get(mContext, "cityselect")))
+            intent = new Intent(mContext, SelectProvinceActivity.class);
+        else
+            intent = new Intent(mContext, MainActivity.class);
         startActivity(intent);
     }
 
@@ -177,16 +184,13 @@ public class LoginActivity extends JhActivity {
                     showTextDialog("请填写登录密码");
                     return;
                 }
-                if (password.trim().length() >= 6 && password.trim().length() <= 12) {
+                if (password.trim().length() >= 8 && password.trim().length() <= 16) {
 
                 } else {
-                    showTextDialog("密码输入不正确\n请输入6-12位密码");
+                    showTextDialog("密码输入不正确\n请输入8-16位密码");
                     return;
                 }
-                if (check_pwd.isChecked())
-                    XtomSharedPreferencesUtil.save(mContext, "autoLogin", "no");
-                else
-                    XtomSharedPreferencesUtil.save(mContext, "autoLogin", "yes");
+//
                 JhNetWorker netWorker = getNetWorker();
                 netWorker.clientLogin(username, Md5Util.getMd5(XtomConfig.DATAKEY
                         + Md5Util.getMd5(password)));
@@ -196,7 +200,7 @@ public class LoginActivity extends JhActivity {
         add_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,Register1Activity.class);
+                Intent intent = new Intent(LoginActivity.this, Register1Activity.class);
                 startActivity(intent);
             }
         });
@@ -204,10 +208,12 @@ public class LoginActivity extends JhActivity {
         forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(LoginActivity.this,FindPwdActivity.class);
-//                intent.putExtra("keytype","1");
-//                startActivity(intent);
+                Intent intent = new Intent(LoginActivity.this, FindPwdActivity.class);
+                intent.putExtra("keytype", "1");
+                startActivity(intent);
             }
         });
     }
+
+
 }

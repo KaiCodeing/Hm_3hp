@@ -7,7 +7,7 @@ public class XsmConfig {
     /**
      * 是否打印信息开关
      */
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     /**
      * 是否启用友盟统计
      */
@@ -15,7 +15,7 @@ public class XsmConfig {
     /**
      * 后台服务接口根路径
      */
-     public static final String SYS_ROOT = "http://124.128.23.74:8008/group15/hm_xmt/";
+     public static final String SYS_ROOT = "http://124.128.23.74:8008/group13/hm_3hp/";
 
     //正式服务器接口初始化地址：
    //   public static final String SYS_ROOT = "http://118.190.49.204/";
@@ -41,6 +41,6 @@ public class XsmConfig {
     /**
      * 微信appid
      */
-    public static final String APPID_WEIXIN = "wx69385155534771a4";
+    public static final String APPID_WEIXIN = "wx2e5262bd699e9ae7";
 
 }

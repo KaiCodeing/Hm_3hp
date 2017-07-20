@@ -26,6 +26,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import xtom.frame.util.XtomSharedPreferencesUtil;
+
 
 public class PushDemoReceiver extends BroadcastReceiver {
 
@@ -144,6 +146,10 @@ public class PushDemoReceiver extends BroadcastReceiver {
         notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         notification.defaults = Notification.DEFAULT_LIGHTS;
+        if ( XtomSharedPreferencesUtil.get(context,"notice")==null ||"".equals(XtomSharedPreferencesUtil.get(context,"notice")))
+        {
+            return;
+        }
         if (isForeground(context, MainActivity.class.getCanonicalName())) {
             return;
         }

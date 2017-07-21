@@ -180,6 +180,8 @@ public class InformationActivity extends JhActivity {
             }
         } else {
             //判断中标，招标
+            String sys_web_service = getApplicationContext().getSysInitInfo()
+                    .getSys_web_service();
             //判断招标
             if ("1".equals(tender.getStatus()) || "2".equals(tender.getStatus())) {
                 dl_layout.setVisibility(View.GONE);
@@ -190,6 +192,8 @@ public class InformationActivity extends JhActivity {
                 tj.setText(tender.getConditions());
                 fj_text.setText("招标公告:");
                 fj.setText(tender.getTenderdemoname());
+                String path = sys_web_service + "webview/parm/tendercontent/id/"+id;
+                webview.loadUrl(path);
             }
             //中标
             else if ("3".equals(tender.getStatus()) || "4".equals(tender.getStatus())) {
@@ -203,6 +207,8 @@ public class InformationActivity extends JhActivity {
                 dl_layout.setVisibility(View.GONE);
                 fj_text.setText("中标公告:");
                 fj.setText(tender.getWindemoname());
+                String path = sys_web_service + "webview/parm/wincontent/id/"+id;
+                webview.loadUrl(path);
             }
             no_vip_layout.setVisibility(View.GONE);
         }

@@ -542,7 +542,6 @@ public class BidFragment extends JhFragment {
                 period="";
                 begintime="";
                 endtime="";
-
                 inIt();
                 //    popupWindow.dismiss();
             }

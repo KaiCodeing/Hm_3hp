@@ -133,7 +133,6 @@ public class BidFragment extends JhFragment {
                     refreshLoadmoreLayout.refreshSuccess();
                     this.tenders.clear();
                     this.tenders.addAll(tenders);
-
                     JhctmApplication application = JhctmApplication.getInstance();
                     int sysPagesize = application.getSysInitInfo()
                             .getSys_pagesize();
@@ -246,6 +245,7 @@ public class BidFragment extends JhFragment {
             @Override
             public void onClick(View v) {
                 Intent it1 = new Intent(getActivity(), SelectProvinceActivity.class);
+                it1.putExtra("keytype","1");
                 startActivity(it1);
             }
         });

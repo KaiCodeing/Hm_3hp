@@ -34,6 +34,7 @@ public class SelectProvinceActivity extends JhActivity {
     private ListView listview;
     private SelectCityAdapter adapter;
     private ArrayList<CityChildren> cityChildrens = new ArrayList<>();
+    private String keytype;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_select_province);
@@ -97,7 +98,7 @@ public class SelectProvinceActivity extends JhActivity {
 
     @Override
     protected void getExras() {
-
+        keytype = mIntent.getStringExtra("keytype");
     }
 
     @Override
@@ -116,6 +117,7 @@ public class SelectProvinceActivity extends JhActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(mContext,SelectCityActivity.class);
                 intent.putExtra("id",cityChildrens.get(position).getId());
+                intent.putExtra("keytype",keytype);
                 intent.putExtra("provinceName",cityChildrens.get(position).getName());
                 startActivity(intent);
             }
@@ -125,6 +127,7 @@ public class SelectProvinceActivity extends JhActivity {
             public void onClick(View v) {
                 XtomActivityManager.finishAll();
                 Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra("keytype",keytype);
                 XtomSharedPreferencesUtil.save(mContext, "cityselect_dan","全国地区");
                 XtomSharedPreferencesUtil.save(mContext, "cityselect","全国地区");
                 startActivity(intent);

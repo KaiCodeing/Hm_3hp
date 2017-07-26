@@ -42,14 +42,22 @@ public class MainActivity extends JhFragmentActivity {
     private RadioButton radiobutton0;
     private RadioButton radiobutton2;
     private long exitTime = 0;
+    private RadioButton radiobutton1;
     private TextView main_point;
     private long checkTime = 0;
+    private String keytype;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
-        toogleFragment(TenderFragment.class);
+        if (isNull(keytype))
+            toogleFragment(TenderFragment.class);
+        else
+        {
+            radiobutton1.setChecked(true);
+           // toogleFragment(BidFragment.class);
+        }
         // 个推相关 start
         startGeTuiPush();
         // 个推相关 end
@@ -60,16 +68,16 @@ public class MainActivity extends JhFragmentActivity {
     protected void findView() {
         content_frame = (FrameLayout) findViewById(R.id.content_frame);
         radiogroup = (RadioGroup) findViewById(R.id.radiogroup);
-
+        radiobutton1 = (RadioButton) findViewById(R.id.radiobutton1);
         main_point = (TextView) findViewById(R.id.main_point);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         if (upGrade != null) {
             upGrade.check();
         }
-
     }
 
     @Override
@@ -80,7 +88,7 @@ public class MainActivity extends JhFragmentActivity {
 
     @Override
     protected void getExras() {
-
+        keytype = mIntent.getStringExtra("keytype");
     }
 
     @Override

@@ -36,6 +36,7 @@ public class SelectCityActivity extends JhActivity {
     private ArrayList<CityChildren> cityChildrens = new ArrayList<>();
     private String id;
     private String provinceName;
+    private String keytype;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_select_province);
@@ -99,6 +100,7 @@ public class SelectCityActivity extends JhActivity {
     protected void getExras() {
     id = mIntent.getStringExtra("id");
         provinceName = mIntent.getStringExtra("provinceName");
+        keytype = mIntent.getStringExtra("keytype");
     }
 
     @Override
@@ -116,6 +118,7 @@ public class SelectCityActivity extends JhActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(mContext,SelectCountyActivity.class);
+                intent.putExtra("keytype",keytype);
                 intent.putExtra("id",cityChildrens.get(position).getId());
                 intent.putExtra("cityName",cityChildrens.get(position).getName());
                 intent.putExtra("provinceName",provinceName);
@@ -127,6 +130,7 @@ public class SelectCityActivity extends JhActivity {
             public void onClick(View v) {
                 XtomActivityManager.finishAll();
                 Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra("keytype",keytype);
                 XtomSharedPreferencesUtil.save(mContext, "cityselect",provinceName);
 
                 XtomSharedPreferencesUtil.save(mContext, "cityselect_dan",provinceName);

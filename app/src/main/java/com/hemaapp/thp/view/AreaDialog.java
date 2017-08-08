@@ -209,10 +209,17 @@ public class AreaDialog extends XtomObject implements OnWheelChangedListener {
     }
 
     public String getCityName() {
+        if (!isNull(mCurrentDistrictName))
+
         return mCurrentProviceName + " " + mCurrentCityName + " " + mCurrentDistrictName;
+        else
+            return mCurrentProviceName + " " + mCurrentCityName + " " + "全部";
     }
     public String getCityJGName() {
+        if (!isNull(mCurrentDistrictName))
         return mCurrentProviceName + "," + mCurrentCityName + "," + mCurrentDistrictName;
+        else
+            return mCurrentProviceName + "," + mCurrentCityName + "," + " ";
     }
 
     public String getId() {
@@ -259,21 +266,21 @@ public class AreaDialog extends XtomObject implements OnWheelChangedListener {
     private void initProvinceDatas() {
         city = JhctmApplication.getInstance().getCityInfo();
         List<CityChildren> provinceList = city.getChildren();
-        CityChildren children = new CityChildren("0", "全部");
-        if (!isNull(type)) {
-            for (int i = 0; i < provinceList.size(); i++) {
-                for (int j = 0; j < provinceList.get(i).getChildren().size(); j++) {
-                    provinceList.get(i).getChildren().get(j).getChildren().add(0, children);
-                }
-            }
-        } else {
+//        CityChildren children = new CityChildren("0", "全部");
+//        if (!isNull(type)) {
+//            for (int i = 0; i < provinceList.size(); i++) {
+//                for (int j = 0; j < provinceList.get(i).getChildren().size(); j++) {
+//                    provinceList.get(i).getChildren().get(j).getChildren().add(0, children);
+//                }
+//            }
+//        } else {
             for (int i = 0; i < provinceList.size(); i++) {
                 for (int j = 0; j < provinceList.get(i).getChildren().size(); j++) {
                     if (provinceList.get(i).getChildren().get(j).getChildren() == null || provinceList.get(i).getChildren().get(j).getChildren().size() == 0) {
                     } else if (provinceList.get(i).getChildren().get(j).getChildren().get(0).getName().equals("全部"))
                         provinceList.get(i).getChildren().get(j).getChildren().remove(0);
                 }
-            }
+//            }
         }
         // */ 初始化默认选中的省、市、区
         if (provinceList != null && !provinceList.isEmpty()) {

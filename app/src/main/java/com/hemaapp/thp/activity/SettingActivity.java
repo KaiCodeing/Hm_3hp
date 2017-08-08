@@ -152,7 +152,7 @@ public class SettingActivity extends JhActivity {
             }
         });
     }
-    private class DeleteView {
+      private class DeleteView {
         TextView close_pop;
         TextView yas_pop;
         TextView text;

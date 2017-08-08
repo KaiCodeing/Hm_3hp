@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaNetTask;
@@ -25,7 +24,7 @@ public class AdsActivity extends JhActivity {
 
     private ViewPager viewpager;// 换页
     private TextView tomain;// 进入首页
-    private RadioGroup rg;//
+//    private RadioGroup rg;//
     private AdsAdapter adapter;
     private User user;
     @Override
@@ -34,7 +33,6 @@ public class AdsActivity extends JhActivity {
         setContentView(R.layout.activity_ads);
         super.onCreate(savedInstanceState);
         XtomSharedPreferencesUtil.save(mContext, "adsshow", "1");
-
     }
     @Override
     protected void callBeforeDataBack(HemaNetTask netTask) {
@@ -73,7 +71,7 @@ public class AdsActivity extends JhActivity {
         // TODO Auto-generated method stub
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         tomain = (TextView) findViewById(R.id.tomain);
-        rg = (RadioGroup) findViewById(R.id.rg);
+        //rg = (RadioGroup) findViewById(R.id.rg);
     }
 
     @Override
@@ -97,7 +95,7 @@ public class AdsActivity extends JhActivity {
         });
         tomain.setVisibility(View.GONE);
         user = getApplicationContext().getUser();
-        adapter = new AdsAdapter(AdsActivity.this, rg, viewpager,tomain);
+        adapter = new AdsAdapter(AdsActivity.this, viewpager,tomain);
         viewpager.setAdapter(adapter);
     }
     /**

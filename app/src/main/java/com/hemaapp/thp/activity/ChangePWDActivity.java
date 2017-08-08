@@ -157,7 +157,6 @@ public class ChangePWDActivity extends JhActivity{
                 }
 
                 break;
-
             default:
                 break;
         }

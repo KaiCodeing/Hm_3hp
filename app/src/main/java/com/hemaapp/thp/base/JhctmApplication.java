@@ -26,6 +26,7 @@ public class JhctmApplication extends HemaApplication {
     private User user;
     private CitySan cityInfo;
     private static JhctmApplication application;
+
     //    private Select select;
     public static JhctmApplication getInstance() {
         return application;
@@ -60,9 +61,10 @@ public class JhctmApplication extends HemaApplication {
         return cityInfo;
     }
 
-      public void setCityInfo(CitySan cityInfo) {
+    public void setCityInfo(CitySan cityInfo) {
         this.cityInfo = cityInfo;
     }
+
     public void initImageLoader() {
         L.writeLogs(false);
 /*
@@ -175,5 +177,4 @@ ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
         }
         return user;
     }
-
 }

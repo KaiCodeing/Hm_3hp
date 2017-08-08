@@ -124,12 +124,14 @@ public class InformationActivity extends JhActivity {
                 break;
             case TENDER_OPE:
                 String keytype = hemaNetTask.getParams().get("keytype");
-                showTextDialog("关注操作成功");
+
                 if ("1".equals(keytype)) {
                     tender.setIs_like("1");
+                    showTextDialog("关注成功");
                     add_attention.setText("已关注");
                 } else {
                     tender.setIs_like("0");
+                    showTextDialog("取消关注成功");
                     add_attention.setText("关注");
                 }
                 break;

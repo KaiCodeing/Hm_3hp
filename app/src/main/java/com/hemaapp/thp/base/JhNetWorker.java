@@ -59,10 +59,8 @@ public class JhNetWorker extends HemaNetWorker {
         params.put("devicetype", "2"); // 用户登录所用手机类型 1：苹果 2：安卓（方便服务器运维统计）
         String version = HemaUtil.getAppVersionForSever(mContext);
         params.put("lastloginversion", version);// 登陆所用的系统版本号,记录用户的登录版本，方便服务器运维统计
-
         JhNetTask task = new ClientLoginTask(information, params);
         executeTask(task);
-
     }
 
     @Override
@@ -199,7 +197,7 @@ public class JhNetWorker extends HemaNetWorker {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("temp_token", temp_token);
         params.put("keytype", keytype);
-        params.put("oldpassword", oldpassword);
+        params.put("old_password", oldpassword);
         params.put("new_password", new_password);
         JhNetTask task = new PasswordResetTask(information, params);
         executeTask(task);

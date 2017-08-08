@@ -65,15 +65,16 @@ public class CustomizedFragment extends JhFragment {
     private ViewSex viewSex;
     private TimePickerDialog timePickerDialog;
     private ViewType viewType;
-    private String typeDJ="";
+    private String typeDJ = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_customized);
         super.onCreate(savedInstanceState);
         String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
-        if ("1".equals(vip) || "2".equals(vip)) {
-            showDelete();
-        }
+//        if ("1".equals(vip) || "2".equals(vip)) {
+//            showDelete();
+//        }
 
 //        else {
 //            inIt();
@@ -85,8 +86,12 @@ public class CustomizedFragment extends JhFragment {
         super.onResume();
         String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
         if ("1".equals(vip) || "2".equals(vip)) {
-//            showDelete();
+            showDelete();
+            input_word.setEnabled(false);
+            input_email.setEnabled(false);
         } else {
+            input_word.setEnabled(true);
+            input_email.setEnabled(true);
             inIt();
         }
     }
@@ -145,7 +150,7 @@ public class CustomizedFragment extends JhFragment {
                     public void run() {
                         inIt();
                     }
-                },1000);
+                }, 1000);
                 break;
             case ADDRESS_LIST:
                 HemaArrayResult<CityChildren> result1 = (HemaArrayResult<CityChildren>) hemaBaseResult;
@@ -178,19 +183,14 @@ public class CustomizedFragment extends JhFragment {
             data_time.setText(user.getSelfsign());
         }
 
-        if ("1".equals(user.getContisignintimes()))
-        {
-            typeDJ ="1";
+        if ("1".equals(user.getContisignintimes())) {
+            typeDJ = "1";
             input_type.setText("全部");
-        }
-        else if("2".equals(user.getContisignintimes()))
-        {
-            typeDJ ="2";
+        } else if ("2".equals(user.getContisignintimes())) {
+            typeDJ = "2";
             input_type.setText("工程信息");
-        }
-        else if("3".equals(user.getContisignintimes()))
-        {
-            typeDJ ="3";
+        } else if ("3".equals(user.getContisignintimes())) {
+            typeDJ = "3";
             input_type.setText("采购信息信息");
         }
         input_word.setText(user.getScore());
@@ -242,30 +242,28 @@ public class CustomizedFragment extends JhFragment {
                 String inforType = input_type.getText().toString();
                 String inforword = input_word.getText().toString();
                 String inforemail = input_email.getText().toString();
-                if (isNull(address))
-                {
+                if (isNull(address)) {
                     showTextDialog("请选择推送地区");
                     return;
                 }
-                if (isNull(time))
-                {
+                if (isNull(time)) {
                     showTextDialog("请选择推送时间");
                     return;
                 }
-                if (isNull(inforType))
-                {
+                if (isNull(inforType)) {
                     showTextDialog("请选择信息类型");
                     return;
                 }
+                if (isNull(inforword)) {
+                    showTextDialog("请填写推送关键词");
+                    return;
+                }
                 String token = JhctmApplication.getInstance().getUser().getToken();
-               if ("及时".equals(time))
-               {
-                   getNetWorker().madeInfo(token,address,"",typeDJ,inforword,inforemail);
-               }
-                else
-               {
-                   getNetWorker().madeInfo(token,address,time_data,typeDJ,inforword,inforemail);
-               }
+                if ("及时".equals(time)) {
+                    getNetWorker().madeInfo(token, address, "", typeDJ, inforword, inforemail);
+                } else {
+                    getNetWorker().madeInfo(token, address, time_data, typeDJ, inforword, inforemail);
+                }
             }
         });
     }
@@ -443,7 +441,7 @@ public class CustomizedFragment extends JhFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("keytype","10");
+                intent.putExtra("keytype", "10");
                 getActivity().startActivity(intent);
             }
         });
@@ -504,6 +502,7 @@ public class CustomizedFragment extends JhFragment {
         popupWindow.setAnimationStyle(R.style.PopupAnimation);
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
     //清空
     //选择性别
     public class ViewType {
@@ -533,7 +532,7 @@ public class CustomizedFragment extends JhFragment {
         viewType.camera_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                typeDJ ="2";
+                typeDJ = "2";
                 input_type.setText("工程信息");
                 popupWindow.dismiss();
             }
@@ -542,7 +541,7 @@ public class CustomizedFragment extends JhFragment {
         viewType.album_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                typeDJ ="3";
+                typeDJ = "3";
                 input_type.setText("采购信息");
                 popupWindow.dismiss();
             }
@@ -551,7 +550,7 @@ public class CustomizedFragment extends JhFragment {
         viewType.all_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                typeDJ ="1";
+                typeDJ = "1";
                 input_type.setText("全部");
                 popupWindow.dismiss();
             }

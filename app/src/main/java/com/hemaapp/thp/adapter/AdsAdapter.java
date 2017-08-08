@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.hemaapp.thp.R;
@@ -20,20 +17,20 @@ import com.hemaapp.thp.activity.AdsActivity;
  */
 public class AdsAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
 
-    private RadioGroup radioGroup;
+   // private RadioGroup radioGroup;
     private ViewPager viewPager;
     private AdsActivity mContext;
     private ViewHolder viewHolder;
     private int size;
     private TextView dianjiTextView;
     public AdsAdapter(AdsActivity mContext,
-                      RadioGroup radioGroup, ViewPager viewPager, TextView dianjiTextView) {
-        this.radioGroup = radioGroup;
+                     ViewPager viewPager, TextView dianjiTextView) {
+     //   this.radioGroup = radioGroup;
         this.viewPager = viewPager;
         this.mContext = mContext;
         this.dianjiTextView = dianjiTextView;
         this.viewPager.setOnPageChangeListener(this);
-        initIndicator();
+//        initIndicator();
     }
 
     @Override
@@ -43,27 +40,27 @@ public class AdsAdapter extends PagerAdapter implements ViewPager.OnPageChangeLi
     }
 
     private void initIndicator() {
-        // 设置提示原点
-        float density = mContext.getResources()
-                .getDisplayMetrics().density;
-        size = (int) (density * 15);
-        radioGroup.removeAllViews();
-        if (getCount() > 1) {
-            for (int i = 0; i < getCount(); i++) {
-                RadioButton button = new RadioButton(mContext);
-                button.setButtonDrawable(R.drawable.indicator_show);
-                button.setChecked(false);
-                button.setId(i);
-                button.setClickable(false);
-                int width = (int) ((i == getCount() - 1) ? size : size * 1.5);
-                LayoutParams params = new LayoutParams(width, size);
-                button.setLayoutParams(params);
-                if (i == 0) {
-                    button.setChecked(true);
-                }
-                radioGroup.addView(button);
-            }
-        }
+//        // 设置提示原点
+//        float density = mContext.getResources()
+//                .getDisplayMetrics().density;
+//        size = (int) (density * 15);
+//        radioGroup.removeAllViews();
+//        if (getCount() > 1) {
+//            for (int i = 0; i < getCount(); i++) {
+//                RadioButton button = new RadioButton(mContext);
+//                button.setButtonDrawable(R.drawable.indicator_show);
+//                button.setChecked(false);
+//                button.setId(i);
+//                button.setClickable(false);
+//                int width = (int) ((i == getCount() - 1) ? size : size * 1.5);
+//                LayoutParams params = new LayoutParams(width, size);
+//                button.setLayoutParams(params);
+//                if (i == 0) {
+//                    button.setChecked(true);
+//                }
+//                radioGroup.addView(button);
+//            }
+//        }
     }
 
     @Override
@@ -119,7 +116,7 @@ public class AdsAdapter extends PagerAdapter implements ViewPager.OnPageChangeLi
     @Override
     public void onPageSelected(int position) {
         // TODO Auto-generated method stub
-        ((RadioButton) radioGroup.getChildAt(position)).setChecked(true);
+   //     ((RadioButton) radioGroup.getChildAt(position)).setChecked(true);
         switch (position) {
 
             case 1:

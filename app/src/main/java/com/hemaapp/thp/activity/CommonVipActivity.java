@@ -70,9 +70,9 @@ public class CommonVipActivity extends JhActivity {
     private void setData(User user)
     {
         //判断类型
-        if ("1".equals(user.getLevel_imgurl()))
+        if ("3".equals(user.getLevel_imgurl()))
             vip_type.setText("全部");
-        else if("2".equals(user.getLevel_imgurl()))
+        else if("1".equals(user.getLevel_imgurl()))
             vip_type.setText("工程信息");
         else
             vip_type.setText("采购信息");

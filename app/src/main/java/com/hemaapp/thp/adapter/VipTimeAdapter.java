@@ -75,8 +75,8 @@ public class VipTimeAdapter extends HemaAdapter {
         else
             holder.check_img.setImageResource(R.mipmap.check_off_vip_img);
         holder.vip_time.setText(notice.getDuration());
-        holder.check_img.setTag(R.id.TAG_VIEWHOLDER,notice);
-        holder.check_img.setOnClickListener(new View.OnClickListener() {
+        holder.check_layout.setTag(R.id.TAG_VIEWHOLDER,notice);
+        holder.check_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Notice notice1 = (Notice) v.getTag(R.id.TAG_VIEWHOLDER);

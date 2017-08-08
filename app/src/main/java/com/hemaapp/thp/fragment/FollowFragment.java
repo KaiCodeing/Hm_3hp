@@ -59,7 +59,7 @@ public class FollowFragment extends JhFragment {
         super.onCreate(savedInstanceState);
         String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
         if ("1".equals(vip)  || "2".equals(vip)) {
-            showDelete();
+         //   showDelete();
             refreshLoadmoreLayout.setVisibility(View.VISIBLE);
             progressbar.setVisibility(View.GONE);
             refreshLoadmoreLayout.setLoadmoreable(false);
@@ -75,6 +75,7 @@ public class FollowFragment extends JhFragment {
         super.onResume();
         String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
         if ("1".equals(vip) || "2".equals(vip)) {
+            showDelete();
             refreshLoadmoreLayout.setVisibility(View.VISIBLE);
             progressbar.setVisibility(View.GONE);
         } else {

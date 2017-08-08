@@ -94,6 +94,7 @@
                 android:text="  全部"
                 android:textColor="#555555"
                 android:checked="true"
+
                 android:button="@drawable/select_check_bg"/>
             <RadioButton
                 android:id="@+id/infor2"

@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.hemaapp.hm_FrameWork.HemaAdapter;
 import com.hemaapp.thp.R;
 import com.hemaapp.thp.activity.InformationActivity;
+import com.hemaapp.thp.activity.LoginActivity;
+import com.hemaapp.thp.base.JhctmApplication;
 import com.hemaapp.thp.model.Tender;
 
 import java.util.ArrayList;
@@ -89,14 +91,21 @@ public class InforAdapter extends HemaAdapter {
                 "yyyy-MM-dd");
         holder.infor_time.setText(regdate);
         //详情
-        holder.item_layout.setTag(R.id.TAG,thread);
+        holder.item_layout.setTag(R.id.TAG, thread);
         holder.item_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Tender tender = (Tender) v.getTag(R.id.TAG);
-                Intent intent = new Intent(mContext, InformationActivity.class);
-                intent.putExtra("id",tender.getId());
-                mContext.startActivity(intent);
+                if (JhctmApplication.getInstance().getUser() == null) {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    intent.putExtra("keytype", "1");
+                    mContext.startActivity(intent);
+                } else {
+                    Tender tender = (Tender) v.getTag(R.id.TAG);
+                    Intent intent = new Intent(mContext, InformationActivity.class);
+                    intent.putExtra("id", tender.getId());
+                    mContext.startActivity(intent);
+                }
+
             }
         });
     }

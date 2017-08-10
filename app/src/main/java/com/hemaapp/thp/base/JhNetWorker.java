@@ -14,6 +14,7 @@ import com.hemaapp.thp.nettask.DistrictAllListTask;
 import com.hemaapp.thp.nettask.DurationGetTask;
 import com.hemaapp.thp.nettask.FileUploadTask;
 import com.hemaapp.thp.nettask.InitTask;
+import com.hemaapp.thp.nettask.IsDisplayTask;
 import com.hemaapp.thp.nettask.MemberBuyTask;
 import com.hemaapp.thp.nettask.MemberfeeGetTask;
 import com.hemaapp.thp.nettask.NoticeListTask;
@@ -332,7 +333,12 @@ public class JhNetWorker extends HemaNetWorker {
     public void tenderList(String key, String keytype, String address, String period, String begintime, String endtime, String type, String page) {
         JhHttpInformation information = JhHttpInformation.TENDER_LIST;
         HashMap<String, String> params = new HashMap<>();
-        String token = JhctmApplication.getInstance().getUser().getToken();
+        String token;
+        if (JhctmApplication.getInstance().getUser() == null) {
+            token = "";
+        } else {
+            token = JhctmApplication.getInstance().getUser().getToken();
+        }
         params.put("token", token);
         params.put("key", key);
         params.put("keytype", keytype);
@@ -682,6 +688,18 @@ public class JhNetWorker extends HemaNetWorker {
         params.put("keywords", keywords);
         params.put("pushemail", pushemail);
         JhNetTask task = new CodeGetTask(information, params);
+        executeTask(task);
+    }
+
+    /**
+     * 是否弹窗
+     * @param address
+     */
+    public void isDisplay(String address) {
+        JhHttpInformation information = JhHttpInformation.IS_DISPLAY;
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("address", address);
+        JhNetTask task = new IsDisplayTask(information, params);
         executeTask(task);
     }
 }

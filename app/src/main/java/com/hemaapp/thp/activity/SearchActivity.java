@@ -398,8 +398,14 @@ public class SearchActivity extends JhActivity {
                 else
                     typeid = gctype+","+cgtype;
                 log_i("+++++++++++++++++++++++++++++++"+typeid);
+                if (isNull(Loaction))
+                {
+                    showTextDialog("请选择地区");
+                    return;
+                }
                 Intent intent = new Intent(mContext,SearchResultActivity.class);
                 intent.putExtra("type",type);
+
                 intent.putExtra("address",Loaction);
                 intent.putExtra("keywords",search);
                 intent.putExtra("typeid",typeid);

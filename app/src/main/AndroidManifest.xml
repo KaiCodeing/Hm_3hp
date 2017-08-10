@@ -211,7 +211,8 @@
         <!-- 本机 -->
         <activity
             android:name="com.hemaapp.thp.activity.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
 
         </activity>
         <activity

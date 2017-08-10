@@ -35,6 +35,8 @@ public class SelectProvinceActivity extends JhActivity {
     private SelectCityAdapter adapter;
     private ArrayList<CityChildren> cityChildrens = new ArrayList<>();
     private String keytype;
+    private String main;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_select_province);
@@ -45,10 +47,10 @@ public class SelectProvinceActivity extends JhActivity {
     /**
      * 初始化
      */
-    private void inIt()
-    {
-        getNetWorker().addressGet("1","");
+    private void inIt() {
+        getNetWorker().addressGet("1", "");
     }
+
     @Override
     protected void callBeforeDataBack(HemaNetTask hemaNetTask) {
         showProgressDialog("获取省份信息");
@@ -66,6 +68,7 @@ public class SelectProvinceActivity extends JhActivity {
         freshData();
 
     }
+
     private void freshData() {
         if (adapter == null) {
             adapter = new SelectCityAdapter(mContext, cityChildrens);
@@ -99,6 +102,20 @@ public class SelectProvinceActivity extends JhActivity {
     @Override
     protected void getExras() {
         keytype = mIntent.getStringExtra("keytype");
+        main = mIntent.getStringExtra("main");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK)
+            return;
+        switch (requestCode) {
+            case 1:
+                setResult(RESULT_OK, mIntent);
+                finish();
+                break;
+        }
     }
 
     @Override
@@ -115,22 +132,36 @@ public class SelectProvinceActivity extends JhActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(mContext,SelectCityActivity.class);
-                intent.putExtra("id",cityChildrens.get(position).getId());
-                intent.putExtra("keytype",keytype);
-                intent.putExtra("provinceName",cityChildrens.get(position).getName());
-                startActivity(intent);
+                Intent intent = new Intent(mContext, SelectCityActivity.class);
+                intent.putExtra("id", cityChildrens.get(position).getId());
+                intent.putExtra("keytype", keytype);
+                intent.putExtra("provinceName", cityChildrens.get(position).getName());
+                intent.putExtra("main", main);
+                startActivityForResult(intent, 1);
             }
         });
         all_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                XtomActivityManager.finishAll();
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("keytype",keytype);
-                XtomSharedPreferencesUtil.save(mContext, "cityselect_dan","全国地区");
-                XtomSharedPreferencesUtil.save(mContext, "cityselect","全国地区");
-                startActivity(intent);
+//                XtomActivityManager.finishAll();
+//                finish();
+//                Intent intent = new Intent(mContext, MainActivity.class);
+//                intent.putExtra("keytype",keytype);
+
+                XtomSharedPreferencesUtil.save(mContext, "cityselect_dan", "全国地区");
+                XtomSharedPreferencesUtil.save(mContext, "cityselect", "全国地区");
+                if (isNull(main)) {
+                    setResult(RESULT_OK, mIntent);
+                    finish();
+                } else {
+                    XtomActivityManager.finishAll();
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    startActivity(intent);
+                }
+////
+//
+//                XtomSharedPreferencesUtil.save(mContext, "cityId", info.getId());
+
             }
         });
     }

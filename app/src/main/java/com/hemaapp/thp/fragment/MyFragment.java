@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaNetTask;
@@ -17,6 +18,7 @@ import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.thp.R;
 import com.hemaapp.thp.activity.CommonVipActivity;
+import com.hemaapp.thp.activity.LoginActivity;
 import com.hemaapp.thp.activity.Register2Activity;
 import com.hemaapp.thp.activity.SettingActivity;
 import com.hemaapp.thp.activity.SuggestionActivity;
@@ -53,6 +55,9 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
     private LinearLayout layout_vip;
     private ImageView change_user;
     private LinearLayout layout_year;
+    private ScrollView login_layout;
+    private TextView goto_login;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_my);
@@ -69,9 +74,17 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
      * 初始化
      */
     private void inIt() {
-        String token = JhctmApplication.getInstance().getUser().getToken();
-        String id = JhctmApplication.getInstance().getUser().getId();
-        getNetWorker().clientGet(token, id);
+        if (JhctmApplication.getInstance().getUser() == null) {
+            goto_login.setVisibility(View.VISIBLE);
+            login_layout.setVisibility(View.GONE);
+        } else {
+            goto_login.setVisibility(View.GONE);
+            login_layout.setVisibility(View.VISIBLE);
+            String token = JhctmApplication.getInstance().getUser().getToken();
+            String id = JhctmApplication.getInstance().getUser().getId();
+            getNetWorker().clientGet(token, id);
+        }
+
     }
 
     @Override
@@ -127,8 +140,8 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
             vip_type.setImageResource(R.mipmap.sup_vip_img);
             vip_name.setText("高级会员");
             vip_name_text.setText("高级会员");
-            input_year.setText(XtomTimeUtil.TransTime(user.getLevel_name(),
-                    "yyyy-MM-dd") + "到期");
+            input_year.setText(user.getLevel_name()
+                     + "到期");
         }
     }
 
@@ -162,6 +175,8 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
         layout_vip = (LinearLayout) findViewById(R.id.layout_vip);
         change_user = (ImageView) findViewById(R.id.change_user);
         layout_year = (LinearLayout) findViewById(R.id.layout_year);
+        login_layout = (ScrollView) findViewById(R.id.login_layout);
+        goto_login = (TextView) findViewById(R.id.goto_login);
     }
 
     @Override
@@ -178,6 +193,14 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
         layout_set.setOnClickListener(this);
         change_user.setOnClickListener(this);
         layout_year.setOnClickListener(this);
+        goto_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("keytype","1");
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -221,13 +244,11 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
                 break;
             case R.id.layout_year://会员续费或购买会员
                 String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
-                if ("1".equals(vip))
-                {
+                if ("1".equals(vip)) {
                     Intent intent7 = new Intent(getActivity(), VipOperationActivity.class);
-                    intent7.putExtra("keytype","1");
+                    intent7.putExtra("keytype", "1");
                     startActivity(intent7);
-                }
-                else {
+                } else {
                     Intent intent7 = new Intent(getActivity(), CommonVipActivity.class);
                     startActivity(intent7);
                 }

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -21,10 +22,12 @@ import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.thp.R;
+import com.hemaapp.thp.activity.LoginActivity;
 import com.hemaapp.thp.activity.VipOperationActivity;
 import com.hemaapp.thp.activity.WebViewActivity;
 import com.hemaapp.thp.base.JhFragment;
 import com.hemaapp.thp.base.JhHttpInformation;
+import com.hemaapp.thp.base.JhNetWorker;
 import com.hemaapp.thp.base.JhctmApplication;
 import com.hemaapp.thp.model.CityChildren;
 import com.hemaapp.thp.model.CitySan;
@@ -33,8 +36,6 @@ import com.hemaapp.thp.view.AreaDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import xtom.frame.util.XtomTimeUtil;
 
 /**
  * Created by lenovo on 2017/6/29.
@@ -66,32 +67,35 @@ public class CustomizedFragment extends JhFragment {
     private TimePickerDialog timePickerDialog;
     private ViewType viewType;
     private String typeDJ = "";
+    private static CustomizedFragment fragment;
+
+    public static CustomizedFragment getInstance() {
+        return fragment;
+    }
+
+    private LinearLayout login_layout;
+    private TextView goto_login;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        fragment = this;
         setContentView(R.layout.fragment_customized);
         super.onCreate(savedInstanceState);
-        String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
-//        if ("1".equals(vip) || "2".equals(vip)) {
-//            showDelete();
-//        }
+        if (JhctmApplication.getInstance().getUser() == null) {
+            login_layout.setVisibility(View.GONE);
+            goto_login.setVisibility(View.VISIBLE);
+        } else {
+            inIt();
+        }
 
-//        else {
-//            inIt();
-//        }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
-        if ("1".equals(vip) || "2".equals(vip)) {
-            showDelete();
-            input_word.setEnabled(false);
-            input_email.setEnabled(false);
+    //展示是否是会员
+    public void showVip() {
+        if (JhctmApplication.getInstance().getUser() == null) {
+            login_layout.setVisibility(View.GONE);
+            goto_login.setVisibility(View.VISIBLE);
         } else {
-            input_word.setEnabled(true);
-            input_email.setEnabled(true);
             inIt();
         }
     }
@@ -99,7 +103,12 @@ public class CustomizedFragment extends JhFragment {
     private void inIt() {
         String token = JhctmApplication.getInstance().getUser().getToken();
         String id = JhctmApplication.getInstance().getUser().getId();
-        getNetWorker().clientGet(token, id);
+        JhNetWorker netWorker = getNetWorker();
+        if (netWorker == null)
+            netWorker = new JhNetWorker(getActivity());
+        netWorker.clientGet(token, id);
+
+        //  CustomizedFragment.this.getNetWorker().clientGet(token, id);
     }
 
     @Override
@@ -139,9 +148,20 @@ public class CustomizedFragment extends JhFragment {
             case CLIENT_GET:
                 HemaArrayResult<User> result = (HemaArrayResult<User>) hemaBaseResult;
                 User user = result.getObjects().get(0);
-                setData(user);
-                if (JhctmApplication.getInstance().getCityInfo() == null)
-                    getNetWorker().districtALLList();
+                String vip = user.getFeeaccount();
+                login_layout.setVisibility(View.VISIBLE);
+                goto_login.setVisibility(View.GONE);
+                if ("1".equals(vip) || "2".equals(vip)) {
+                    showDelete();
+                    input_word.setEnabled(false);
+                    input_email.setEnabled(false);
+                } else {
+                    input_word.setEnabled(true);
+                    input_email.setEnabled(true);
+                    setData(user);
+                    if (JhctmApplication.getInstance().getCityInfo() == null)
+                        getNetWorker().districtALLList();
+                }
                 break;
             case MADEINFO:
                 showTextDialog("提交定制信息成功！");
@@ -173,6 +193,7 @@ public class CustomizedFragment extends JhFragment {
      */
     private void setData(User user) {
         input_city.setText(user.getTop_week() + user.getTop_year() + user.getBackimg());
+        Loaction = user.getTop_week() + "," + user.getTop_year() + "," + user.getBackimg();
         //推送时间
         if (isNull(user.getSelfsign())) {
             input_sex.setText("及时");
@@ -198,9 +219,9 @@ public class CustomizedFragment extends JhFragment {
         //判断普通会员，高级会员
         String vipt = user.getFeeaccount();
         if ("2".equals(vipt))
-            over_time.setText(XtomTimeUtil.TransTime(user.getSigninflag(), "yyyy.MM.dd"));
+            over_time.setText(user.getSigninflag());
         else
-            over_time.setText(XtomTimeUtil.TransTime(user.getLevel_name(), "yyyy.MM.dd"));
+            over_time.setText(user.getLevel_name());
         agin_vip.setVisibility(View.VISIBLE);
         agin_vip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,9 +281,9 @@ public class CustomizedFragment extends JhFragment {
                 }
                 String token = JhctmApplication.getInstance().getUser().getToken();
                 if ("及时".equals(time)) {
-                    getNetWorker().madeInfo(token, address, "", typeDJ, inforword, inforemail);
+                    getNetWorker().madeInfo(token, Loaction, "", typeDJ, inforword, inforemail);
                 } else {
-                    getNetWorker().madeInfo(token, address, time_data, typeDJ, inforword, inforemail);
+                    getNetWorker().madeInfo(token, Loaction, time_data, typeDJ, inforword, inforemail);
                 }
             }
         });
@@ -426,6 +447,8 @@ public class CustomizedFragment extends JhFragment {
         over_time = (TextView) findViewById(R.id.over_time);
         agin_vip = (TextView) findViewById(R.id.agin_vip);
         login_text = (TextView) findViewById(R.id.login_text);
+        goto_login = (TextView) findViewById(R.id.goto_login);
+        login_layout = (LinearLayout) findViewById(R.id.login_layout);
     }
 
     @Override
@@ -442,6 +465,14 @@ public class CustomizedFragment extends JhFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 intent.putExtra("keytype", "10");
+                getActivity().startActivity(intent);
+            }
+        });
+        goto_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("keytype", "1");
                 getActivity().startActivity(intent);
             }
         });

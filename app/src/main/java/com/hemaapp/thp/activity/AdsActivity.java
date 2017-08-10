@@ -24,9 +24,10 @@ public class AdsActivity extends JhActivity {
 
     private ViewPager viewpager;// 换页
     private TextView tomain;// 进入首页
-//    private RadioGroup rg;//
+    //    private RadioGroup rg;//
     private AdsAdapter adapter;
     private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -34,6 +35,7 @@ public class AdsActivity extends JhActivity {
         super.onCreate(savedInstanceState);
         XtomSharedPreferencesUtil.save(mContext, "adsshow", "1");
     }
+
     @Override
     protected void callBeforeDataBack(HemaNetTask netTask) {
         // TODO Auto-generated method stub
@@ -90,28 +92,37 @@ public class AdsActivity extends JhActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                toLogin();
+                toMain();
             }
         });
         tomain.setVisibility(View.GONE);
         user = getApplicationContext().getUser();
-        adapter = new AdsAdapter(AdsActivity.this, viewpager,tomain);
+        adapter = new AdsAdapter(AdsActivity.this, viewpager, tomain);
         viewpager.setAdapter(adapter);
     }
+
     /**
-     *
      * @方法名称: toLogin
      * @功能描述: 跳转到登录界面
      * @返回值: void
      */
     private void toLogin() {
         Intent intent = new Intent(AdsActivity.this, LoginActivity.class);
-        intent.putExtra("type","type");
+        intent.putExtra("type", "type");
         startActivity(intent);
         finish();
     }
+
     private void toMain() {
-        Intent intent = new Intent(AdsActivity.this, MainActivity.class);
+        Intent intent;
+        if (isNull(XtomSharedPreferencesUtil.get(mContext, "cityselect")))
+        {
+            intent = new Intent(AdsActivity.this, SelectProvinceActivity.class);
+            intent.putExtra("main","1");
+        }
+        else
+            intent = new Intent(AdsActivity.this, MainActivity.class);
+        //
 //        intent.putExtra("fromNotification", fromNotification);
 //        log_i("启动页的信息是什么-----------"+fromNotification);
         startActivity(intent);

@@ -71,6 +71,7 @@ public class CommonVipActivity extends JhActivity {
     {
         //判断类型
         if ("3".equals(user.getLevel_imgurl()))
+
             vip_type.setText("全部");
         else if("1".equals(user.getLevel_imgurl()))
             vip_type.setText("工程信息");
@@ -80,13 +81,13 @@ public class CommonVipActivity extends JhActivity {
         if ("2".equals(user.getFeeaccount()))
         {
             title_text.setText("普通会员");
-            vip_time.setText(XtomTimeUtil.TransTime(user.getSigninflag(),"yyyy.MM.dd"));
+            vip_time.setText(user.getSigninflag());
         }
         else
         {
             login_text.setVisibility(View.INVISIBLE);
             title_text.setText("高级会员");
-            vip_time.setText(XtomTimeUtil.TransTime(user.getLevel_name(),"yyyy.MM.dd"));
+            vip_time.setText(user.getLevel_name());
         }
         //续费
         xf_text.setOnClickListener(new View.OnClickListener() {

@@ -24,7 +24,6 @@ import com.hemaapp.thp.base.JhctmApplication;
 
 import java.math.BigDecimal;
 
-import xtom.frame.XtomActivityManager;
 import xtom.frame.image.cache.XtomImageCache;
 import xtom.frame.media.XtomVoicePlayer;
 import xtom.frame.util.XtomSharedPreferencesUtil;
@@ -51,12 +50,12 @@ public class SettingActivity extends JhActivity {
 
     @Override
     protected void callBeforeDataBack(HemaNetTask hemaNetTask) {
-
+        showProgressDialog("退出登录");
     }
 
     @Override
     protected void callAfterDataBack(HemaNetTask hemaNetTask) {
-
+        cancelProgressDialog();
     }
 
 
@@ -67,8 +66,10 @@ public class SettingActivity extends JhActivity {
         XtomSharedPreferencesUtil.save(mContext, "password", "");// 青空密码
         XtomSharedPreferencesUtil.save(mContext,"autoLogin","");
         //XtomSharedPreferencesUtil.save(getActivity(), "city_name", "");
-        XtomActivityManager.finishAll();
+       // XtomActivityManager.finishAll();
+        finish();
         Intent it = new Intent(mContext, LoginActivity.class);
+        it.putExtra("keytype","1");
         startActivity(it);
     }
 

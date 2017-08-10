@@ -95,6 +95,7 @@ public class Register2Activity extends JhActivity {
     private String Loaction;
     private String keytype;
     private User user;
+    private String bz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,17 +191,16 @@ public class Register2Activity extends JhActivity {
                 break;
             case FILE_UPLOAD:
                 if (isNull(this.keytype))
-                getNetWorker().clientLogin(username, Md5Util.getMd5(XtomConfig.DATAKEY
-                        + Md5Util.getMd5(password)));
-                else
-                {
+                    getNetWorker().clientLogin(username, Md5Util.getMd5(XtomConfig.DATAKEY
+                            + Md5Util.getMd5(password)));
+                else {
                     showTextDialog("修改个人信息成功！");
                     next_button.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             finish();
                         }
-                    },1000);
+                    }, 1000);
                 }
                 break;
             case CLIENT_ADD:
@@ -221,10 +221,24 @@ public class Register2Activity extends JhActivity {
                 XtomSharedPreferencesUtil.save(mContext, "username", username);
                 XtomSharedPreferencesUtil.save(mContext, "password", Md5Util.getMd5(XtomConfig.DATAKEY
                         + Md5Util.getMd5(password)));
+                if (isNull(XtomSharedPreferencesUtil.get(mContext, "cityselect"))) {
+                    XtomActivityManager.finishAll();
+                    Intent it1 = new Intent(mContext, SelectProvinceActivity.class);
+                    it1.putExtra("main", "1");
+                    startActivity(it1);
+                } else {
+                    if (isNull(bz)) {
+                        XtomActivityManager.finishAll();
+                        Intent it1 = new Intent(mContext, MainActivity.class);
+                        startActivity(it1);
+                    } else {
+                        finish();
+                        Intent intent1 = new Intent();
+                        intent1.setAction("hemaapp.3hp.user.infor");
+                        sendBroadcast(intent1);
+                    }
 
-                XtomActivityManager.finishAll();
-                Intent it1 = new Intent(mContext, SelectProvinceActivity.class);
-                startActivity(it1);
+                }
                 break;
             case CLIENT_GET:
                 HemaArrayResult<User> result4 = (HemaArrayResult<User>) hemaBaseResult;
@@ -235,15 +249,14 @@ public class Register2Activity extends JhActivity {
                 String token2 = JhctmApplication.getInstance().getUser().getToken();
                 if (!isNull(tempPath))
                     getNetWorker().fileUpload(token2, "1", "0", "0", "0", "无", tempPath);
-                else
-                {
+                else {
                     showTextDialog("修改个人信息成功！");
                     next_button.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             finish();
                         }
-                    },1000);
+                    }, 1000);
                 }
                 break;
         }
@@ -531,6 +544,7 @@ public class Register2Activity extends JhActivity {
         username = mIntent.getStringExtra("username");
         password = mIntent.getStringExtra("password");
         keytype = mIntent.getStringExtra("keytype");
+        bz = mIntent.getStringExtra("bz");
     }
 
     @Override
@@ -592,7 +606,7 @@ public class Register2Activity extends JhActivity {
                     if (!cgtypeid.toString().equals("") || cgtypeid.toString().length() != 0)
                         cgtype = cgtypeid.substring(0, cgtypeid.length() - 1);
                     String token = JhctmApplication.getInstance().getUser().getToken();
-                    getNetWorker().clientSave(token,name,sex,age,email,address,company,position,gctype,cgtype,typekeyword);
+                    getNetWorker().clientSave(token, name, sex, age, email, address, company, position, gctype, cgtype, typekeyword);
                 }
             });
         } else

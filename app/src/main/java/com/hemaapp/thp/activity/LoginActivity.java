@@ -34,6 +34,7 @@ public class LoginActivity extends JhActivity {
     private TextView forget_password;
     private ImageView bank_img;
     private CheckBox check_pwd;
+    private String keytype;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class LoginActivity extends JhActivity {
                 String password = hemaNetTask.getParams().get("password");
                 XtomSharedPreferencesUtil.save(mContext, "username", username);
                 XtomSharedPreferencesUtil.save(mContext, "password", password);
-                XtomActivityManager.finishAll();
+
                 String token = user.getToken();
                 GotoMain();
                 break;
@@ -99,11 +100,22 @@ public class LoginActivity extends JhActivity {
      */
     private void GotoMain() {
         Intent intent;
-        if (isNull(XtomSharedPreferencesUtil.get(mContext, "cityselect")))
+        if (isNull(XtomSharedPreferencesUtil.get(mContext, "cityselect"))) {
             intent = new Intent(mContext, SelectProvinceActivity.class);
-        else
-            intent = new Intent(mContext, MainActivity.class);
-        startActivity(intent);
+            intent.putExtra("main", "1");
+        } else {
+
+            if (!isNull(keytype)) {
+                finish();
+                Intent intent1 = new Intent();
+                intent1.setAction("hemaapp.3hp.user.infor");
+                sendBroadcast(intent1);
+            } else {
+                XtomActivityManager.finishAll();
+                intent = new Intent(mContext, MainActivity.class);
+                startActivity(intent);
+            }
+        }
     }
 
     @Override
@@ -153,7 +165,7 @@ public class LoginActivity extends JhActivity {
 
     @Override
     protected void getExras() {
-
+        keytype = mIntent.getStringExtra("keytype");
     }
 
     @Override
@@ -161,7 +173,14 @@ public class LoginActivity extends JhActivity {
         bank_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                XtomActivityManager.finishAll();
+                if (isNull(keytype))
+                    XtomActivityManager.finishAll();
+                else {
+                    finish();
+                    Intent intent1 = new Intent();
+                    intent1.setAction("hemaapp.3hp.user.infor");
+                    sendBroadcast(intent1);
+                }
             }
         });
         //登录
@@ -200,7 +219,9 @@ public class LoginActivity extends JhActivity {
         add_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(LoginActivity.this, Register1Activity.class);
+                intent.putExtra("keytype", keytype);
                 startActivity(intent);
             }
         });

@@ -149,6 +149,7 @@
                     android:button="@drawable/check_select_"
                     android:text="  记住密码"
                     android:textSize="@dimen/textsize_7"
+                    android:checked="true"
                     android:textColor="@color/white"
                     />
                 <View

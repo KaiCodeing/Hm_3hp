@@ -37,6 +37,7 @@ public class SelectCityActivity extends JhActivity {
     private String id;
     private String provinceName;
     private String keytype;
+    private String main;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_select_province);
@@ -101,6 +102,21 @@ public class SelectCityActivity extends JhActivity {
     id = mIntent.getStringExtra("id");
         provinceName = mIntent.getStringExtra("provinceName");
         keytype = mIntent.getStringExtra("keytype");
+        main = mIntent.getStringExtra("main");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode!=RESULT_OK)
+            return;
+        switch (requestCode)
+        {
+            case 1:
+                setResult(RESULT_OK, mIntent);
+                finish();
+                break;
+        }
     }
 
     @Override
@@ -122,19 +138,28 @@ public class SelectCityActivity extends JhActivity {
                 intent.putExtra("id",cityChildrens.get(position).getId());
                 intent.putExtra("cityName",cityChildrens.get(position).getName());
                 intent.putExtra("provinceName",provinceName);
-                startActivity(intent);
+                intent.putExtra("main",main);
+                startActivityForResult(intent,1);
             }
         });
         all_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                XtomActivityManager.finishAll();
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("keytype",keytype);
+            //    XtomActivityManager.finishAll();
+//                finish();
+//                Intent intent = new Intent(mContext, MainActivity.class);
+//                intent.putExtra("keytype",keytype);
                 XtomSharedPreferencesUtil.save(mContext, "cityselect",provinceName);
-
                 XtomSharedPreferencesUtil.save(mContext, "cityselect_dan",provinceName);
-                startActivity(intent);
+//                startActivity(intent);
+                if (isNull(main)) {
+                    setResult(RESULT_OK, mIntent);
+                    finish();
+                } else {
+                    XtomActivityManager.finishAll();
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }

@@ -77,6 +77,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
     IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
     private ReceiveBroadCast receiveBroadCast; // 广播实例
     private String aplyId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_vip_operation);
@@ -85,6 +86,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
         msgApi.registerApp(XsmConfig.APPID_WEIXIN);
         registerMyBroadcast();
     }
+
     @Override
     protected void onDestroy() {
         unregisterMyBroadcast();
@@ -94,6 +96,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
     private void unregisterMyBroadcast() {
         unregisterReceiver(receiveBroadCast);
     }
+
     private void registerMyBroadcast() {
         // 注册广播接收
         receiveBroadCast = new ReceiveBroadCast();
@@ -108,25 +111,20 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
         @Override
         public void onReceive(Context context, Intent intent) {
             if ("hemaapp.dtyw.buy.congzhi.infor".equals(intent.getAction())) {
-                int err = intent.getIntExtra("res",-1);
+                int err = intent.getIntExtra("res", -1);
                 //成功
-                if (0==err)
-                {
+                if (0 == err) {
                     showTextDialog("支付成功");
                     next_button.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             finish();
                         }
-                    },1000);
-                }
-                else if(-1==err)
-                {
+                    }, 1000);
+                } else if (-1 == err) {
                     showTextDialog("支付错误");
 
-                }
-                else
-                {
+                } else {
                     showTextDialog("取消支付");
 
                 }
@@ -189,8 +187,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
                     String token = JhctmApplication.getInstance().getUser().getToken();
                     String id = JhctmApplication.getInstance().getUser().getId();
                     getNetWorker().clientGet(token, id);
-                } else
-                {
+                } else {
                     setMoney();
                     freshData();
                 }
@@ -199,7 +196,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
             case MEMBERFEE_GET:
                 HemaArrayResult<String> result2 = (HemaArrayResult<String>) hemaBaseResult;
                 money = result2.getObjects().get(0);
-                money_text.setText("¥"+money);
+                money_text.setText("¥" + money);
                 break;
             case CLIENT_GET:
                 HemaArrayResult<User> result1 = (HemaArrayResult<User>) hemaBaseResult;
@@ -213,13 +210,12 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
                 aplyId = result3.getObjects().get(0);
                 String token = JhctmApplication.getInstance().getUser().getToken();
                 //支付宝
-                if (apliyType==1)
-                {
-                    getNetWorker().alipay(token,aplyId,money);
+                if (apliyType == 1) {
+                    getNetWorker().alipay(token, aplyId, money);
                 }
                 //微信
                 else {
-                    getNetWorker().weixinpay(token,aplyId,money);
+                    getNetWorker().weixinpay(token, aplyId, money);
                 }
                 break;
             case ALIPAY:
@@ -236,6 +232,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
                 break;
         }
     }
+
     private void goWeixin(WeixinTrade trade) {
         XtomSharedPreferencesUtil.save(mContext, "order_id", aplyId);
         msgApi.registerApp(XsmConfig.APPID_WEIXIN);
@@ -249,13 +246,14 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
         request.sign = trade.getSign();
         msgApi.sendReq(request);
     }
+
     private class AlipayThread extends Thread {
         String orderInfo;
         AlipayHandler alipayHandler;
 
         public AlipayThread(String orderInfo) {
             this.orderInfo = orderInfo;
-            alipayHandler = new AlipayHandler(VipOperationActivity.this,aplyId);
+            alipayHandler = new AlipayHandler(VipOperationActivity.this, aplyId);
         }
 
         @Override
@@ -342,7 +340,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
         }
         //升级
         else {
-            vipType ="1";
+            vipType = "1";
             vip_op.setVisibility(View.GONE);
         }
 
@@ -435,11 +433,17 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
             }
         });
         next_button.setText("会员说明");
+        if ("1".equals(keytype))
+            title_text.setText("购买会员");
+        else if ("2".equals(keytype))
+            title_text.setText("续费");
+        else
+            title_text.setText("会员升级");
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,WebViewActivity.class);
-                intent.putExtra("keytype","10");
+                Intent intent = new Intent(mContext, WebViewActivity.class);
+                intent.putExtra("keytype", "10");
                 startActivity(intent);
             }
         });
@@ -470,43 +474,43 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
             @Override
             public void onClick(View v) {
                 String token = JhctmApplication.getInstance().getUser().getToken();
-                getNetWorker().memberBuy(token,vipType,type,vipTime);
+                getNetWorker().memberBuy(token, vipType, type, vipTime);
             }
         });
+
     }
-    public void setMoney()
-    {
+
+    public void setMoney() {
         //得到时间
-        for (Notice notice:notices)
-        {
+        for (Notice notice : notices) {
             if (notice.isCheck())
                 vipTime = notice.getDuration();
         }
         String token = JhctmApplication.getInstance().getUser().getToken();
-        getNetWorker().memberfeeGet(token,vipType,type,vipTime);
+        getNetWorker().memberfeeGet(token, vipType, type, vipTime);
     }
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId)
-        {
+        switch (checkedId) {
             case R.id.vip_sup://高级会员
-                vipType ="1";
+                vipType = "1";
                 setMoney();
                 break;
             case R.id.vip_op://普通会员
-                vipType="2";
-                 setMoney();
+                vipType = "2";
+                setMoney();
                 break;
             case R.id.infor1://全部
-                type="3";
+                type = "3";
                 setMoney();
                 break;
             case R.id.infor2://工程
-                type="1";
+                type = "1";
                 setMoney();
                 break;
             case R.id.infor3://采购
-                type="2";
+                type = "2";
                 setMoney();
                 break;
         }

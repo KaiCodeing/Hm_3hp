@@ -25,6 +25,7 @@ import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout;
 import com.hemaapp.thp.R;
+import com.hemaapp.thp.activity.LoginActivity;
 import com.hemaapp.thp.activity.MessageActivity;
 import com.hemaapp.thp.activity.SearchActivity;
 import com.hemaapp.thp.activity.SelectProvinceActivity;
@@ -81,23 +82,38 @@ public class BidFragment extends JhFragment {
 
     private ArrayList<TypeGet> list1 = new ArrayList<>();
     private ArrayList<TypeGet> list2 = new ArrayList<>();
+    private DeleteView deleteView;//清空
+    private static BidFragment fragment;
+
+    public static BidFragment getInstance() {
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        fragment = this;
         setContentView(R.layout.fragment_tender);
         super.onCreate(savedInstanceState);
+        inIt();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        inIt();
+
     }
 
     //初始化
-    private void inIt() {
-        String token = JhctmApplication.getInstance().getUser().getToken();
-        getNetWorker().noticeUnread(token);
+    public void inIt() {
+        String token;
+        if (JhctmApplication.getInstance().getUser() == null) {
+            String address = XtomSharedPreferencesUtil.get(getActivity(), "cityselect");
+            getNetWorker().isDisplay(address);
+//            getNetWorker().tenderList("2", this.keytype, address, period, begintime, endtime, jktype, String.valueOf(page));
+        } else {
+            token = JhctmApplication.getInstance().getUser().getToken();
+            getNetWorker().noticeUnread(token);
+        }
 
     }
 
@@ -175,7 +191,23 @@ public class BidFragment extends JhFragment {
                 else
                     message_to.setImageResource(R.mipmap.message_view_img);
                 String address = XtomSharedPreferencesUtil.get(getActivity(), "cityselect");
-                getNetWorker().tenderList("2", this.keytype, address, period, begintime, endtime, jktype, String.valueOf(page));
+                getNetWorker().isDisplay(address);
+                //      getNetWorker().tenderList("2", this.keytype, address, period, begintime, endtime, jktype, String.valueOf(page));
+                break;
+            case IS_DISPLAY:
+                HemaArrayResult<String> result3 = (HemaArrayResult<String>) hemaBaseResult;
+                String isdis = result3.getObjects().get(0);
+                String address1 = XtomSharedPreferencesUtil.get(getActivity(), "cityselect");
+                loaction_text.setText(XtomSharedPreferencesUtil.get(getActivity(), "cityselect_dan"));
+                if ("1".equals(isdis)) {
+                    showDelete();
+                    progressbar.setVisibility(View.GONE);
+                    refreshLoadmoreLayout.setVisibility(View.GONE);
+                } else
+                    getNetWorker().tenderList("2", this.keytype, address1, period, begintime, endtime, jktype, String.valueOf(page));
+                break;
+            case FEEDBACK_ADD:
+                showTextDialog("反馈成功!");
                 break;
         }
     }
@@ -238,6 +270,19 @@ public class BidFragment extends JhFragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (getActivity().RESULT_OK != resultCode) {
+            return;
+        }
+        switch (requestCode) {
+            case 1:
+                inIt();
+                break;
+        }
+    }
+
+    @Override
     protected void setListener() {
 
         //选择地区
@@ -245,8 +290,8 @@ public class BidFragment extends JhFragment {
             @Override
             public void onClick(View v) {
                 Intent it1 = new Intent(getActivity(), SelectProvinceActivity.class);
-                it1.putExtra("keytype","1");
-                startActivity(it1);
+                it1.putExtra("keytype", "1");
+                BidFragment.this.startActivityForResult(it1, 1);
             }
         });
         //搜索
@@ -261,8 +306,14 @@ public class BidFragment extends JhFragment {
         message_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MessageActivity.class);
-                startActivity(intent);
+                if (JhctmApplication.getInstance().getUser() == null) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    intent.putExtra("keytype", "1");
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), MessageActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         //选择工程信息
@@ -313,9 +364,9 @@ public class BidFragment extends JhFragment {
                     timeType = 1;
                     showTime();
                 } else {
-                    timeType = 0;
-                    time.setImageResource(R.mipmap.select_main_img);
-                    popupWindow.dismiss();
+//                    timeType = 0;
+//                    time.setImageResource(R.mipmap.select_main_img);
+//                    popupWindow.dismiss();
                 }
             }
         });
@@ -340,9 +391,9 @@ public class BidFragment extends JhFragment {
                     }
 
                 } else {
-                    typeType = 0;
-                    type.setImageResource(R.mipmap.select_main_img);
-                    typepopupWindow.dismiss();
+//                    typeType = 0;
+//                    type.setImageResource(R.mipmap.select_main_img);
+//                    typepopupWindow.dismiss();
                 }
             }
         });
@@ -539,9 +590,9 @@ public class BidFragment extends JhFragment {
                 timeView.three_mon.setChecked(false);
                 timeView.over_time.setText("");
                 timeView.star_time.setText("");
-                period="";
-                begintime="";
-                endtime="";
+                period = "";
+                begintime = "";
+                endtime = "";
                 inIt();
                 //    popupWindow.dismiss();
             }
@@ -567,8 +618,7 @@ public class BidFragment extends JhFragment {
                     begintime = "";
                     endtime = "";
                 }
-                if (isNull(timeView.star_time.getText().toString()) || isNull(timeView.over_time.getText().toString()))
-                {
+                if (isNull(timeView.star_time.getText().toString()) || isNull(timeView.over_time.getText().toString())) {
                     showTextDialog("请选择日期");
                     return;
                 }
@@ -583,21 +633,21 @@ public class BidFragment extends JhFragment {
         popupWindow.setTouchable(true);
         popupWindow.setWidth(RadioGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setHeight(RadioGroup.LayoutParams.MATCH_PARENT);
-//        popupWindow.setBackgroundDrawable(new
-//                BitmapDrawable()
-//        );
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE && !popupWindow.isFocusable()) {
-                    //如果焦点不在popupWindow上，且点击了外面，不再往下dispatch事件：
-                    //不做任何响应,不 dismiss popupWindow
-                    return true;
-                }
-                //否则default，往下dispatch事件:关掉popupWindow，
-                return false;
-            }
-        });
+        popupWindow.setBackgroundDrawable(new
+                BitmapDrawable()
+        );
+//        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_OUTSIDE && !popupWindow.isFocusable()) {
+//                    //如果焦点不在popupWindow上，且点击了外面，不再往下dispatch事件：
+//                    //不做任何响应,不 dismiss popupWindow
+//                    return true;
+//                }
+//                //否则default，往下dispatch事件:关掉popupWindow，
+//                return false;
+//            }
+//        });
 
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         popupWindow.showAsDropDown(findViewById(R.id.time));
@@ -747,4 +797,68 @@ public class BidFragment extends JhFragment {
         int position;
         TypeGet get;
     }
+
+    private class DeleteView {
+        TextView close_pop;
+        TextView yas_pop;
+        TextView text;
+        TextView iphone_number;
+    }
+
+    //提示
+    private void showDelete() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.pop_show_hint, null);
+        deleteView = new DeleteView();
+        deleteView.close_pop = (TextView) view.findViewById(R.id.close_pop);
+        deleteView.yas_pop = (TextView) view.findViewById(R.id.yas_pop);
+        deleteView.text = (TextView) view.findViewById(R.id.text);
+        deleteView.iphone_number = (TextView) view.findViewById(R.id.iphone_number);
+        deleteView.text.setText("温馨提示");
+        deleteView.iphone_number.setText("未开放当前城市地区信息，向后台反馈添加该\n城市地区信息?");
+        deleteView.close_pop.setText("取消");
+        deleteView.yas_pop.setText("确定");
+        final PopupWindow popupWindow = new PopupWindow(view,
+                RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
+        deleteView.close_pop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        deleteView.yas_pop.setOnClickListener(new View.OnClickListener() {
+                                                  @Override
+                                                  public void onClick(View v) {
+                                                      if (JhctmApplication.getInstance().getUser() == null) {
+                                                          Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                                          intent.putExtra("keytype", "1");
+                                                          startActivity(intent);
+                                                          popupWindow.dismiss();
+                                                      } else {
+                                                          String token = JhctmApplication.getInstance().getUser().getToken();
+                                                          String address = XtomSharedPreferencesUtil.get(getActivity(), "cityselect");
+                                                          getNetWorker().feedbackAdd(token, address);
+                                                          popupWindow.dismiss();
+                                                      }
+                                                  }
+                                              }
+        );
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setWidth(RadioGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(RadioGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new
+                BitmapDrawable()
+        );
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // popupWindow.showAsDropDown(findViewById(R.id.ll_item));
+        popupWindow.setAnimationStyle(R.style.PopupAnimation);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
 }

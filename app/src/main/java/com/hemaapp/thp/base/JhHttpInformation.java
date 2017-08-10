@@ -151,7 +151,12 @@ public  enum JhHttpInformation implements HemaHttpInfomation {
     /**
      * madeinfo 定制消息
      */
-    MADEINFO(34,"madeinfo","定制消息",false);
+    MADEINFO(34,"madeinfo","定制消息",false),
+    /**
+     * is_display 是否弹窗
+     */
+    IS_DISPLAY(35,"is_display","是否弹窗",false);
+
     private int id;// 对应NetTask的id
     private String urlPath;// 请求地址
     private String description;// 请求描述

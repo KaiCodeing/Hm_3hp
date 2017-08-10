@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F4F4"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <include layout="@layout/title_right_left"></include>
 
     <ScrollView
+        android:id="@+id/login_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent"
+        android:visibility="gone">
         <LinearLayout
+
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -29,8 +36,8 @@
 
                     <com.hemaapp.hm_FrameWork.view.RoundedImageView
                         android:id="@+id/user_img"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:scaleType="center"
                         android:src="@mipmap/my_fr_user_img" />
 
@@ -410,6 +417,26 @@
                     android:textColor="#999999"
                     android:textSize="@dimen/textsize_8" />
             </LinearLayout>
+
+
         </LinearLayout>
+
     </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/goto_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/button_title_bg"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="去登录"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_8" />
+
+</FrameLayout>

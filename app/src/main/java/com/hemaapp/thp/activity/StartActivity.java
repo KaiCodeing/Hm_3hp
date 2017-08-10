@@ -248,7 +248,7 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
 //                    XtomSharedPreferencesUtil.save(mContext, "username", "");// 清空用户名
 //                    XtomSharedPreferencesUtil.save(mContext, "password", "");// 青空密码
 //                }
-                toLogin();
+                toMain();
                 break;
             default:
                 break;
@@ -268,7 +268,7 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
                 JhctmApplication.getInstance().setUser(null);
 //                XtomSharedPreferencesUtil.save(mContext, "username", "");// 清空用户名
 //                XtomSharedPreferencesUtil.save(mContext, "password", "");// 青空密码
-                toLogin();
+                toMain();
                 break;
             default:
                 break;
@@ -315,10 +315,10 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
                 JhNetWorker netWorker = getNetWorker();
                 netWorker.clientLogin(username, password);
             } else {
-                toLogin();
+                toMain();
             }
         } else {
-            toLogin();
+            toMain();
         }
 
     }
@@ -358,7 +358,10 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
 
        Intent intent ;
         if (isNull(XtomSharedPreferencesUtil.get(mContext,"cityselect")))
-           intent = new Intent(StartActivity.this, SelectProvinceActivity.class);
+        {
+            intent = new Intent(StartActivity.this, SelectProvinceActivity.class);
+            intent.putExtra("main","1");
+        }
         else
             intent = new Intent(StartActivity.this, MainActivity.class);
         //Intent intent = new Intent(StartActivity.this, SearchActivity_Map.class);

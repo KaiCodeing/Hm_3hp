@@ -10,21 +10,26 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaNetTask;
+import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout;
 import com.hemaapp.thp.R;
+import com.hemaapp.thp.activity.LoginActivity;
 import com.hemaapp.thp.activity.VipOperationActivity;
 import com.hemaapp.thp.adapter.InforAdapter;
 import com.hemaapp.thp.base.JhFragment;
+import com.hemaapp.thp.base.JhHttpInformation;
 import com.hemaapp.thp.base.JhctmApplication;
 import com.hemaapp.thp.model.Tender;
+import com.hemaapp.thp.model.User;
 
 import java.util.ArrayList;
 
@@ -53,34 +58,41 @@ public class FollowFragment extends JhFragment {
     private Integer page = 0;
     private ArrayList<Tender> tenders = new ArrayList<>();
     private InforAdapter adapter;
+    private static FollowFragment fragment;
+
+    public static FollowFragment getInstance() {
+        return fragment;
+    }
+
+    private LinearLayout login_layout;
+    private TextView goto_login;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        fragment = this;
         setContentView(R.layout.fragment_follow);
         super.onCreate(savedInstanceState);
-        String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
-        if ("1".equals(vip)  || "2".equals(vip)) {
-         //   showDelete();
-            refreshLoadmoreLayout.setVisibility(View.VISIBLE);
-            progressbar.setVisibility(View.GONE);
-            refreshLoadmoreLayout.setLoadmoreable(false);
-            refreshLoadmoreLayout.setRefreshable(false);
-            refreshLoadmoreLayout.setEnabled(false);
-            vip_layout.setEnabled(false);
+        if (JhctmApplication.getInstance().getUser() == null) {
+            login_layout.setVisibility(View.GONE);
+            goto_login.setVisibility(View.VISIBLE);
+        } else {
+            String token = JhctmApplication.getInstance().getUser().getToken();
+            String id = JhctmApplication.getInstance().getUser().getId();
+            getNetWorker().clientGet(token, id);
         }
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
-        if ("1".equals(vip) || "2".equals(vip)) {
-            showDelete();
-            refreshLoadmoreLayout.setVisibility(View.VISIBLE);
-            progressbar.setVisibility(View.GONE);
+
+    //展示是否是会员
+    public void showVip() {
+        if (JhctmApplication.getInstance().getUser() == null) {
+            login_layout.setVisibility(View.GONE);
+            goto_login.setVisibility(View.VISIBLE);
         } else {
-            page = 0;
-            inIt();
+            String token = JhctmApplication.getInstance().getUser().getToken();
+            String id = JhctmApplication.getInstance().getUser().getId();
+            getNetWorker().clientGet(token, id);
         }
     }
 
@@ -102,35 +114,63 @@ public class FollowFragment extends JhFragment {
 
     @Override
     protected void callBackForServerSuccess(HemaNetTask hemaNetTask, HemaBaseResult hemaBaseResult) {
-        HemaPageArrayResult<Tender> result = (HemaPageArrayResult<Tender>) hemaBaseResult;
-        ArrayList<Tender> tenders = result.getObjects();
-        String page2 = hemaNetTask.getParams().get("page");
-        if ("0".equals(page2)) {// 刷新
-            refreshLoadmoreLayout.refreshSuccess();
-            this.tenders.clear();
-            this.tenders.addAll(tenders);
+        JhHttpInformation infomation = (JhHttpInformation) hemaNetTask.getHttpInformation();
+        switch (infomation) {
+            case LIKETENDER_LIST:
+                HemaPageArrayResult<Tender> result = (HemaPageArrayResult<Tender>) hemaBaseResult;
+                ArrayList<Tender> tenders = result.getObjects();
+                String page2 = hemaNetTask.getParams().get("page");
+                if ("0".equals(page2)) {// 刷新
+                    refreshLoadmoreLayout.refreshSuccess();
+                    this.tenders.clear();
+                    this.tenders.addAll(tenders);
 
-            JhctmApplication application = JhctmApplication.getInstance();
-            int sysPagesize = application.getSysInitInfo()
-                    .getSys_pagesize();
-            if (tenders.size() < sysPagesize) {
-                refreshLoadmoreLayout.setLoadmoreable(false);
-                // leftRE = false;
-            } else {
-                refreshLoadmoreLayout.setLoadmoreable(true);
-                // leftRE = true;
-            }
-        } else {// 更多
-            refreshLoadmoreLayout.loadmoreSuccess();
-            if (tenders.size() > 0)
-                this.tenders.addAll(tenders);
-            else {
-                refreshLoadmoreLayout.setLoadmoreable(false);
-                // leftRE = false;
-                XtomToastUtil.showShortToast(getActivity(), "已经到最后啦");
-            }
+                    JhctmApplication application = JhctmApplication.getInstance();
+                    int sysPagesize = application.getSysInitInfo()
+                            .getSys_pagesize();
+                    if (tenders.size() < sysPagesize) {
+                        refreshLoadmoreLayout.setLoadmoreable(false);
+                        // leftRE = false;
+                    } else {
+                        refreshLoadmoreLayout.setLoadmoreable(true);
+                        // leftRE = true;
+                    }
+                } else {// 更多
+                    refreshLoadmoreLayout.loadmoreSuccess();
+                    if (tenders.size() > 0)
+                        this.tenders.addAll(tenders);
+                    else {
+                        refreshLoadmoreLayout.setLoadmoreable(false);
+                        // leftRE = false;
+                        XtomToastUtil.showShortToast(getActivity(), "已经到最后啦");
+                    }
+                }
+                freshData();
+                break;
+            case CLIENT_GET:
+                HemaArrayResult<User> result2 = (HemaArrayResult<User>) hemaBaseResult;
+                User user = result2.getObjects().get(0);
+                String vip = user.getFeeaccount();
+                login_layout.setVisibility(View.VISIBLE);
+                goto_login.setVisibility(View.GONE);
+                if ("1".equals(vip) || "2".equals(vip)) {
+                    showDelete();
+                    refreshLoadmoreLayout.setVisibility(View.VISIBLE);
+                    progressbar.setVisibility(View.GONE);
+                    refreshLoadmoreLayout.setLoadmoreable(false);
+                    refreshLoadmoreLayout.setRefreshable(false);
+                    refreshLoadmoreLayout.setEnabled(false);
+                    vip_layout.setEnabled(false);
+                } else {
+                    refreshLoadmoreLayout.setEnabled(true);
+                    vip_layout.setEnabled(true);
+                    page = 0;
+                    inIt();
+                }
+
+                break;
         }
-        freshData();
+
     }
 
     private void freshData() {
@@ -146,7 +186,7 @@ public class FollowFragment extends JhFragment {
 
     @Override
     protected void callBackForServerFailed(HemaNetTask hemaNetTask, HemaBaseResult hemaBaseResult) {
-            showTextDialog(hemaBaseResult.getMsg());
+        showTextDialog(hemaBaseResult.getMsg());
     }
 
     @Override
@@ -173,6 +213,8 @@ public class FollowFragment extends JhFragment {
         refreshLoadmoreLayout = (RefreshLoadmoreLayout) findViewById(R.id.refreshLoadmoreLayout);
         progressbar = (ProgressBar) findViewById(R.id.progressbar);
         vip_layout = (FrameLayout) findViewById(R.id.vip_layout);
+        login_layout = (LinearLayout) findViewById(R.id.login_layout);
+        goto_login = (TextView) findViewById(R.id.goto_login);
     }
 
     @Override
@@ -180,16 +222,24 @@ public class FollowFragment extends JhFragment {
         back_button.setVisibility(View.INVISIBLE);
         title_text.setText("我的关注");
         next_button.setVisibility(View.INVISIBLE);
+        goto_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.putExtra("keytype","1");
+                getActivity().startActivity(intent);
+            }
+        });
         refreshLoadmoreLayout.setOnStartListener(new XtomRefreshLoadmoreLayout.OnStartListener() {
             @Override
             public void onStartRefresh(XtomRefreshLoadmoreLayout xtomRefreshLoadmoreLayout) {
-                page=0;
+                page = 0;
                 inIt();
             }
 
             @Override
             public void onStartLoadmore(XtomRefreshLoadmoreLayout xtomRefreshLoadmoreLayout) {
-            page++;
+                page++;
                 inIt();
             }
         });
@@ -205,8 +255,8 @@ public class FollowFragment extends JhFragment {
                 view1.setVisibility(View.VISIBLE);
                 view2.setVisibility(View.INVISIBLE);
                 purchase.setTextColor(getResources().getColor(R.color.web));
-                keytype="1";
-                page=0;
+                keytype = "1";
+                page = 0;
                 inIt();
 
             }
@@ -223,8 +273,8 @@ public class FollowFragment extends JhFragment {
                 view2.setVisibility(View.VISIBLE);
                 view1.setVisibility(View.INVISIBLE);
                 project.setTextColor(getResources().getColor(R.color.web));
-                keytype="2";
-                page=0;
+                keytype = "2";
+                page = 0;
                 inIt();
             }
         });
@@ -246,7 +296,7 @@ public class FollowFragment extends JhFragment {
         deleteView.text = (TextView) view.findViewById(R.id.text);
         deleteView.iphone_number = (TextView) view.findViewById(R.id.iphone_number);
         deleteView.text.setText("温馨提示");
-        deleteView.text.setText("成为高级会员才能进行关注");
+        deleteView.iphone_number.setText("成为高级会员才能进行关注");
         deleteView.close_pop.setText("我知道了");
         deleteView.yas_pop.setText("去购买");
         final PopupWindow popupWindow = new PopupWindow(view,

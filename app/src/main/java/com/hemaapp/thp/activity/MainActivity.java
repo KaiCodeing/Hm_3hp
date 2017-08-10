@@ -46,22 +46,25 @@ public class MainActivity extends JhFragmentActivity {
     private TextView main_point;
     private long checkTime = 0;
     private String keytype;
-
+    private ReceiveBroadCast receiveBroadCast; // 广播实例
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
-        if (isNull(keytype))
+        if (isNull(keytype)) {
             toogleFragment(TenderFragment.class);
-        else
-        {
+            if (TenderFragment.getInstance() != null) {
+                TenderFragment.getInstance().inIt();
+            }
+        } else {
             radiobutton1.setChecked(true);
-           // toogleFragment(BidFragment.class);
+            // toogleFragment(BidFragment.class);
         }
         // 个推相关 start
         startGeTuiPush();
         // 个推相关 end
         upGrade = new JhUpGrade(this);
+        registerMyBroadcast();
     }
 
     @Override
@@ -70,6 +73,8 @@ public class MainActivity extends JhFragmentActivity {
         radiogroup = (RadioGroup) findViewById(R.id.radiogroup);
         radiobutton1 = (RadioButton) findViewById(R.id.radiobutton1);
         main_point = (TextView) findViewById(R.id.main_point);
+        radiobutton0 = (RadioButton) findViewById(R.id.radiobutton0);
+        radiobutton1 = (RadioButton) findViewById(R.id.radiobutton1);
     }
 
     @Override
@@ -79,11 +84,37 @@ public class MainActivity extends JhFragmentActivity {
             upGrade.check();
         }
     }
+    private void registerMyBroadcast() {
+        // 注册广播接收
+        receiveBroadCast = new ReceiveBroadCast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("hemaapp.3hp.user.infor"); // 只有持有相同的action的接受者才能接收此广播
 
+        registerReceiver(receiveBroadCast, filter);
+    }
+
+    public class ReceiveBroadCast extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("hemaapp.3hp.user.infor".equals(intent.getAction())) {
+//                toogleFragment(TenderFragment.class);
+//                if (TenderFragment.getInstance() != null) {
+//                    TenderFragment.getInstance().inIt();
+//                }
+                if (radiobutton0!=null)
+                radiobutton0.setChecked(true);
+            }
+        }
+    }
+    private void unregisterMyBroadcast() {
+        unregisterReceiver(receiveBroadCast);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         stopPush();
+        unregisterMyBroadcast();
     }
 
     @Override
@@ -103,16 +134,28 @@ public class MainActivity extends JhFragmentActivity {
             switch (checkedId) {
                 case R.id.radiobutton0:// 招标
                     toogleFragment(TenderFragment.class);
+                    if (TenderFragment.getInstance() != null) {
+                        TenderFragment.getInstance().inIt();
+                    }
                     break;
                 case R.id.radiobutton1:// 中标
                     toogleFragment(BidFragment.class);
+                    if (BidFragment.getInstance() != null) {
+                        BidFragment.getInstance().inIt();
+                    }
                     break;
                 case R.id.radiobutton2:// 定制
 
                     toogleFragment(CustomizedFragment.class);
+                    if (CustomizedFragment.getInstance() != null) {
+                        CustomizedFragment.getInstance().showVip();
+                    }
                     break;
                 case R.id.radiobutton3://关注
                     toogleFragment(FollowFragment.class);
+                    if (FollowFragment.getInstance() != null) {
+                        FollowFragment.getInstance().showVip();
+                    }
                     break;
                 case R.id.radiobutton4:
                     toogleFragment(MyFragment.class);
@@ -190,6 +233,7 @@ public class MainActivity extends JhFragmentActivity {
             } else {
                 // moveTaskToBack(false);
                 finish();
+//                XtomActivityManager.finishAll();
                 NotificationManager nm = (NotificationManager) mContext
                         .getSystemService(Context.NOTIFICATION_SERVICE);
                 nm.cancelAll();

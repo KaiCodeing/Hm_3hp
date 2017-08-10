@@ -38,6 +38,8 @@ public class SelectCountyActivity extends JhActivity {
     private String provinceName;
     private String cityName;
     private String keytype;
+    private String main;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_select_province);
@@ -105,6 +107,7 @@ public class SelectCountyActivity extends JhActivity {
         provinceName = mIntent.getStringExtra("provinceName");
         cityName = mIntent.getStringExtra("cityName");
         keytype = mIntent.getStringExtra("keytype");
+        main = mIntent.getStringExtra("main");
     }
 
     @Override
@@ -121,24 +124,42 @@ public class SelectCountyActivity extends JhActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                XtomActivityManager.finishAll();
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("id", cityChildrens.get(position).getId());
-                intent.putExtra("keytype",keytype);
-                XtomSharedPreferencesUtil.save(mContext, "cityselect_dan",cityChildrens.get(position).getName());
+                //   XtomActivityManager.finishAll();
+//                finish();
+//                Intent intent = new Intent(mContext, MainActivity.class);
+//                intent.putExtra("id", cityChildrens.get(position).getId());
+//                intent.putExtra("keytype",keytype);
+                XtomSharedPreferencesUtil.save(mContext, "cityselect_dan", cityChildrens.get(position).getName());
                 XtomSharedPreferencesUtil.save(mContext, "cityselect", provinceName + "," + cityName + "," + cityChildrens.get(position).getName());
-                startActivity(intent);
+//                startActivity(intent);
+                if (isNull(main)) {
+                    setResult(RESULT_OK, mIntent);
+                    finish();
+                } else {
+                    XtomActivityManager.finishAll();
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         all_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                XtomActivityManager.finishAll();
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("keytype",keytype);
-                XtomSharedPreferencesUtil.save(mContext, "cityselect",cityName);
-                XtomSharedPreferencesUtil.save(mContext, "cityselect_dan",cityName);
-                startActivity(intent);
+                //  XtomActivityManager.finishAll();
+//                finish();
+//                Intent intent = new Intent(mContext, MainActivity.class);
+//                intent.putExtra("keytype",keytype);
+                XtomSharedPreferencesUtil.save(mContext, "cityselect", cityName);
+                XtomSharedPreferencesUtil.save(mContext, "cityselect_dan", cityName);
+//                startActivity(intent);
+                if (isNull(main)) {
+                    setResult(RESULT_OK, mIntent);
+                    finish();
+                } else {
+                    XtomActivityManager.finishAll();
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }

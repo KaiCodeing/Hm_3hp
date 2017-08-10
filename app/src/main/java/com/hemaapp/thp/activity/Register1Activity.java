@@ -42,7 +42,7 @@ public class Register1Activity extends JhActivity {
     private TextView second;
     private TimeThread timeThread;
     private String username;
-
+    private String keytype;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.register_1_activity);
@@ -116,11 +116,13 @@ public class Register1Activity extends JhActivity {
                     showTextDialog("两次输入手机号码不一致，\n请确认");
                     return;
                 }
+                finish();
                 Intent intent = new Intent(Register1Activity.this,Register2Activity.class);
                 intent.putExtra("temp_token",temp_token);
                 intent.putExtra("code",yanzheng_text.getText().toString());
                 intent.putExtra("username",userName);
                 intent.putExtra("password",input_psw.getText().toString());
+                intent.putExtra("bz",keytype);
                 startActivity(intent);
                 break;
 
@@ -192,7 +194,7 @@ public class Register1Activity extends JhActivity {
 
     @Override
     protected void getExras() {
-
+        keytype = mIntent.getStringExtra("keytype");
     }
 
     @Override

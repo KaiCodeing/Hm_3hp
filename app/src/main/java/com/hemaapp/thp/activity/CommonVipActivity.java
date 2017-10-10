@@ -15,11 +15,9 @@ import com.hemaapp.thp.base.JhActivity;
 import com.hemaapp.thp.base.JhctmApplication;
 import com.hemaapp.thp.model.User;
 
-import xtom.frame.util.XtomTimeUtil;
-
 /**
  * Created by lenovo on 2017/6/30.
- * 普通会员续费
+ * 普通VIP续费
  */
 public class CommonVipActivity extends JhActivity {
     private ImageButton back_button;
@@ -77,16 +75,16 @@ public class CommonVipActivity extends JhActivity {
             vip_type.setText("工程信息");
         else
             vip_type.setText("采购信息");
-        //普通会员
+        //普通VIP
         if ("2".equals(user.getFeeaccount()))
         {
-            title_text.setText("普通会员");
+            title_text.setText("普通VIP");
             vip_time.setText(user.getSigninflag());
         }
         else
         {
             login_text.setVisibility(View.INVISIBLE);
-            title_text.setText("高级会员");
+            title_text.setText("高级VIP");
             vip_time.setText(user.getLevel_name());
         }
         //续费
@@ -98,7 +96,7 @@ public class CommonVipActivity extends JhActivity {
                 startActivity(intent);
             }
         });
-        //升级高级会员
+        //升级高级VIP
         login_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,8 +150,8 @@ public class CommonVipActivity extends JhActivity {
                 finish();
             }
         });
-        title_text.setText("普通会员");
-        next_button.setText("会员说明");
+        title_text.setText("普通VIP");
+        next_button.setText("VIP说明");
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

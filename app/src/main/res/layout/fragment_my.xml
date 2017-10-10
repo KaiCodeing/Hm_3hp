@@ -75,7 +75,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center|bottom"
                                 android:layout_marginLeft="10dp"
-                                android:text="高级会员"
+                                android:text="高级VIP"
                                 android:textColor="#999999"
                                 android:textSize="@dimen/textsize_6" />
                         </LinearLayout>
@@ -110,7 +110,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="15dp"
-                        android:text="高级会员"
+                        android:text="高级VIP"
                         android:textColor="#333333"
                         android:textSize="@dimen/textsize_8" />
 

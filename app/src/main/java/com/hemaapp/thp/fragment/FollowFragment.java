@@ -84,7 +84,7 @@ public class FollowFragment extends JhFragment {
     }
 
 
-    //展示是否是会员
+    //展示是否是VIP
     public void showVip() {
         if (JhctmApplication.getInstance().getUser() == null) {
             login_layout.setVisibility(View.GONE);
@@ -296,7 +296,7 @@ public class FollowFragment extends JhFragment {
         deleteView.text = (TextView) view.findViewById(R.id.text);
         deleteView.iphone_number = (TextView) view.findViewById(R.id.iphone_number);
         deleteView.text.setText("温馨提示");
-        deleteView.iphone_number.setText("成为高级会员才能进行关注");
+        deleteView.iphone_number.setText("成为高级VIP才能进行关注");
         deleteView.close_pop.setText("我知道了");
         deleteView.yas_pop.setText("去购买");
         final PopupWindow popupWindow = new PopupWindow(view,

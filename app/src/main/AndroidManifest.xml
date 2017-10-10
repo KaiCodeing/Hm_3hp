@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hemaapp.thp">
     <!-- permissions start -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -49,10 +50,11 @@
     <application
         android:name="com.hemaapp.thp.base.JhctmApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:replace="name,icon,label,theme"
         >
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->

@@ -29,7 +29,7 @@
 
 
                 android:layout_height="wrap_content"
-                android:text="高级会员"
+                android:text="高级VIP"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/purchase"
@@ -39,7 +39,7 @@
                 android:paddingBottom="15dp"
                 android:paddingTop="15dp"
                 android:layout_height="wrap_content"
-                android:text="普通会员"
+                android:text="普通VIP"
                 android:gravity="center"/>
         </LinearLayout>
         <LinearLayout

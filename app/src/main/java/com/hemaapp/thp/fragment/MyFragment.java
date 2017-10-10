@@ -119,27 +119,27 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
                 .bitmapConfig(Bitmap.Config.RGB_565).build();
         ImageLoader.getInstance().displayImage(path, user_img, options);
         user_name.setText(user.getNickname());
-        //判断会员角色
-        //非会员
+        //判断VIP角色
+        //非VIP
         if ("1".equals(user.getFeeaccount())) {
             layout_vip.setVisibility(View.GONE);
-            vip_name_text.setText("成为会员");
+            vip_name_text.setText("成为VIP");
             input_year.setText("申请");
             input_year.setTextColor(getResources().getColor(R.color.backgroud_title));
         }
-        //普通会员
+        //普通VIP
         else if ("2".equals(user.getFeeaccount())) {
             vip_type.setImageResource(R.mipmap.vip_img);
-            vip_name.setText("普通会员");
-            vip_name_text.setText("普通会员");
+            vip_name.setText("普通VIP");
+            vip_name_text.setText("普通VIP");
             input_year.setText(XtomTimeUtil.TransTime(user.getSigninflag(),
                     "yyyy-MM-dd") + "到期");
         }
-        //超级会员
+        //超级VIP
         else {
             vip_type.setImageResource(R.mipmap.sup_vip_img);
-            vip_name.setText("高级会员");
-            vip_name_text.setText("高级会员");
+            vip_name.setText("高级VIP");
+            vip_name_text.setText("高级VIP");
             input_year.setText(user.getLevel_name()
                      + "到期");
         }
@@ -242,7 +242,7 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
                 intent6.putExtra("keytype", "1");
                 getActivity().startActivity(intent6);
                 break;
-            case R.id.layout_year://会员续费或购买会员
+            case R.id.layout_year://VIP续费或购买VIP
                 String vip = JhctmApplication.getInstance().getUser().getFeeaccount();
                 if ("1".equals(vip)) {
                     Intent intent7 = new Intent(getActivity(), VipOperationActivity.class);

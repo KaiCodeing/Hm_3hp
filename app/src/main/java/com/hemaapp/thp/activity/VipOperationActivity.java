@@ -42,7 +42,7 @@ import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
  * Created by lenovo on 2017/6/30.
- * 会员，keytype 1购买会员，2续费，3会员升级
+ * VIP，keytype 1购买VIP，2续费，3VIP升级
  */
 public class VipOperationActivity extends JhActivity implements RadioGroup.OnCheckedChangeListener {
     private ImageButton back_button;
@@ -66,7 +66,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
     private ArrayList<Notice> notices = new ArrayList<>();
     private VipTimeAdapter adapter;
     private GridView gridview;
-    //会员类型
+    //VIP类型
     private String vipType = "1";
     //信息类型
     private String type = "3";
@@ -144,13 +144,13 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
         JhHttpInformation information = (JhHttpInformation) hemaNetTask.getHttpInformation();
         switch (information) {
             case DURATION_GET:
-                showProgressDialog("获取会员时间...");
+                showProgressDialog("获取VIP时间...");
                 break;
             case MEMBERFEE_GET:
-                showProgressDialog("获取会员费用...");
+                showProgressDialog("获取VIP费用...");
                 break;
             case MEMBER_BUY:
-                showProgressDialog("提交会员信息...");
+                showProgressDialog("提交VIP信息...");
                 break;
             case ALIPAY:
             case UNIONPAY:
@@ -311,10 +311,10 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
     private void setVipView(User user) {
         //判断续费
         if ("2".equals(keytype)) {
-            //判断会员
-            //普通会员
+            //判断VIP
+            //普通VIP
             if ("2".equals(user.getFeeaccount())) {
-                //隐藏会员选择
+                //隐藏VIP选择
                 vipType = "2";
             } else {
                 vipType = "1";
@@ -378,7 +378,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
         JhHttpInformation information = (JhHttpInformation) hemaNetTask.getHttpInformation();
         switch (information) {
             case DURATION_GET:
-                showTextDialog("获取会员时间失败，请稍后重试");
+                showTextDialog("获取VIP时间失败，请稍后重试");
                 break;
             case MEMBERFEE_GET:
                 showTextDialog("获取费用失败，请稍后重试");
@@ -387,7 +387,7 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
                 showTextDialog("获取个人信息失败，请稍后重试");
                 break;
             case MEMBER_BUY:
-                showTextDialog("提交会员申请失败，请稍后重试");
+                showTextDialog("提交VIP申请失败，请稍后重试");
                 break;
             case ALIPAY:
             case UNIONPAY:
@@ -432,13 +432,13 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
                 finish();
             }
         });
-        next_button.setText("会员说明");
+        next_button.setText("VIP说明");
         if ("1".equals(keytype))
-            title_text.setText("购买会员");
+            title_text.setText("购买VIP");
         else if ("2".equals(keytype))
             title_text.setText("续费");
         else
-            title_text.setText("会员升级");
+            title_text.setText("VIP升级");
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -493,11 +493,11 @@ public class VipOperationActivity extends JhActivity implements RadioGroup.OnChe
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
-            case R.id.vip_sup://高级会员
+            case R.id.vip_sup://高级VIP
                 vipType = "1";
                 setMoney();
                 break;
-            case R.id.vip_op://普通会员
+            case R.id.vip_op://普通VIP
                 vipType = "2";
                 setMoney();
                 break;

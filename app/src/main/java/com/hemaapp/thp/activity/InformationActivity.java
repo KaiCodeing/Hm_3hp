@@ -147,7 +147,7 @@ public class InformationActivity extends JhActivity {
         word_title.setText(tender.getName());
         //地区
         city.setText(tender.getProvince() + tender.getCity() + tender.getArea());
-        //判断不是会员
+        //判断不是VIP
         if (user.getFeeaccount().equals("1")) {
             //判断招标
             if ("1".equals(tender.getStatus()) || "2".equals(tender.getStatus())) {
@@ -164,7 +164,7 @@ public class InformationActivity extends JhActivity {
                 text.setText("******");
                 web_layout.setVisibility(View.GONE);
                 content_text.setVisibility(View.VISIBLE);
-                content_text.setText("当前您为免费注册用户，无法查看该招标具体信息，成为会员，海量招标信息随意看！！");
+                content_text.setText("当前您为免费注册用户，无法查看该招标具体信息，成为VIP，海量招标信息随意看！！");
             }
             //中标
             else if ("3".equals(tender.getStatus()) || "4".equals(tender.getStatus())) {
@@ -178,7 +178,7 @@ public class InformationActivity extends JhActivity {
                 web_layout.setVisibility(View.GONE);
                 email_layout.setVisibility(View.GONE);
                 content_text.setVisibility(View.VISIBLE);
-                content_text.setText("当前您为免费注册用户，无法查看该中标具体信息，成为会员，海量中标信息随意看！！");
+                content_text.setText("当前您为免费注册用户，无法查看该中标具体信息，成为VIP，海量中标信息随意看！！");
             }
         } else {
             //判断中标，招标
@@ -219,7 +219,7 @@ public class InformationActivity extends JhActivity {
         else
             type_name.setText("采购信息-" + tender.getType());
 
-        //会员
+        //VIP
         login_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,7 +242,7 @@ public class InformationActivity extends JhActivity {
                 if ("1".equals(tender.getIs_like())) {
                     getNetWorker().tenderOpe(token, "2", tender.getId());
                 } else {
-                    //判断会员
+                    //判断VIP
                     if (user.getFeeaccount().equals("1")) {
                         showDelete(3);
                     }
@@ -355,9 +355,9 @@ public class InformationActivity extends JhActivity {
     }
 
     /**
-     * @param keytype 1：高级会员
-     *                2：普通会员
-     *                3：非会员
+     * @param keytype 1：高级VIP
+     *                2：普通VIP
+     *                3：非VIP
      *                4：发送邮箱
      */
     private void showDelete(final int keytype) {
@@ -374,12 +374,12 @@ public class InformationActivity extends JhActivity {
             deleteView.yas_pop.setText("关注");
             deleteView.close_pop.setText("我知道了");
         } else if (keytype == 2) {
-            deleteView.iphone_number.setText("成为高级会员后才能进行关注\n关注本条中标信息后，本条后续变更信息会及时推送");
+            deleteView.iphone_number.setText("成为高级VIP后才能进行关注\n关注本条中标信息后，本条后续变更信息会及时推送");
             deleteView.yas_pop.setText("关注");
             deleteView.close_pop.setText("我知道了");
 
         } else if (keytype == 3) {
-            deleteView.iphone_number.setText("成为高级会员才能进行关注");
+            deleteView.iphone_number.setText("成为高级VIP才能进行关注");
             deleteView.yas_pop.setText("去购买");
             deleteView.close_pop.setText("我知道了");
         } else {

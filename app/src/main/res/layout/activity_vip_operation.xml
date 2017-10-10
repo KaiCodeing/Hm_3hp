@@ -21,7 +21,7 @@
         android:paddingBottom="20dp"
         android:background="@color/white">
         <TextView
-            android:text="选择会员身份"
+            android:text="选择VIP身份"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="  高级会员"
+            android:text="  高级VIP"
                 android:textColor="#555555"
             android:checked="true"
             android:button="@drawable/select_check_bg"/>
@@ -50,14 +50,14 @@
                 android:layout_weight="1"
                 android:textColor="#555555"
                 android:layout_height="wrap_content"
-                android:text="  普通会员"
+                android:text="  普通VIP"
                 android:button="@drawable/select_check_bg"/>
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:visibility="invisible"
                 android:layout_height="wrap_content"
-                android:text="  普通会员"
+                android:text="  普通VIP"
                 android:button="@drawable/select_check_bg"/>
         </RadioGroup>
     </LinearLayout>

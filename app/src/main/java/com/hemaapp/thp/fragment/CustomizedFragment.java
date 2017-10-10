@@ -90,7 +90,7 @@ public class CustomizedFragment extends JhFragment {
 
     }
 
-    //展示是否是会员
+    //展示是否是VIP
     public void showVip() {
         if (JhctmApplication.getInstance().getUser() == null) {
             login_layout.setVisibility(View.GONE);
@@ -216,7 +216,7 @@ public class CustomizedFragment extends JhFragment {
         }
         input_word.setText(user.getScore());
         input_email.setText(user.getExpiredflag());
-        //判断普通会员，高级会员
+        //判断普通VIP，高级VIP
         String vipt = user.getFeeaccount();
         if ("2".equals(vipt))
             over_time.setText(user.getSigninflag());
@@ -455,11 +455,11 @@ public class CustomizedFragment extends JhFragment {
     protected void setListener() {
         back_button.setVisibility(View.INVISIBLE);
         title_text.setText("定制");
-        next_button.setText("会员说明");
+        next_button.setText("VIP说明");
         data_time.setVisibility(View.GONE);
         agin_vip.setVisibility(View.GONE);
         login_text.setVisibility(View.GONE);
-        //会员说明
+        //VIP说明
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -494,7 +494,7 @@ public class CustomizedFragment extends JhFragment {
         deleteView.text = (TextView) view.findViewById(R.id.text);
         deleteView.iphone_number = (TextView) view.findViewById(R.id.iphone_number);
         deleteView.text.setText("温馨提示");
-        deleteView.iphone_number.setText("您现在还不是高级会员，不具备定制服务\n的权限，是否申请成为高级会员？");
+        deleteView.iphone_number.setText("您现在还不是高级VIP，不具备定制服务\n的权限，是否申请成为高级VIP？");
         deleteView.close_pop.setText("我知道了");
         deleteView.yas_pop.setText("去购买");
         final PopupWindow popupWindow = new PopupWindow(view,

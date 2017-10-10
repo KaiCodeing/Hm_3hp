@@ -15,10 +15,10 @@ public class XsmConfig {
     /**
      * 后台服务接口根路径
      */
-     public static final String SYS_ROOT = "http://124.128.23.74:8008/group13/hm_3hp/";
+ //    public static final String SYS_ROOT = "http://124.128.23.74:8008/group13/hm_3hp/";
 
     //正式服务器接口初始化地址：
-   //   public static final String SYS_ROOT = "http://118.190.49.204/";
+      public static final String SYS_ROOT = "http://120.26.233.218/";
     /**
      * 图片压缩的最大宽度
      */

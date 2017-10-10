@@ -121,9 +121,9 @@ public class WebViewActivity extends JhActivity {
             vip_layout.setVisibility(View.VISIBLE);
             String path = sys_web_service + "webview/parm/advanced";
             webview_aboutwe.loadUrl(path);
-            title_text.setText("会员说明");
+            title_text.setText("VIP说明");
         }
-        //选择高级会员
+        //选择高级VIP
         project.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,14 +131,14 @@ public class WebViewActivity extends JhActivity {
                         .getSys_web_service();
                 String path = sys_web_service + "webview/parm/advanced";
                 webview_aboutwe.loadUrl(path);
-                //  title_text.setText("会员说明");
+                //  title_text.setText("VIP说明");
                 project.setTextColor(getResources().getColor(R.color.backgroud_title));
                 view1.setVisibility(View.VISIBLE);
                 view2.setVisibility(View.INVISIBLE);
                 purchase.setTextColor(getResources().getColor(R.color.web));
             }
         });
-        //选择普通会员
+        //选择普通VIP
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,7 +146,7 @@ public class WebViewActivity extends JhActivity {
                         .getSys_web_service();
                 String path = sys_web_service + "webview/parm/description";
                 webview_aboutwe.loadUrl(path);
-                //    title_text.setText("会员说明");
+                //    title_text.setText("VIP说明");
                 purchase.setTextColor(getResources().getColor(R.color.backgroud_title));
                 view2.setVisibility(View.VISIBLE);
                 view1.setVisibility(View.INVISIBLE);

@@ -2,13 +2,19 @@ package com.hemaapp.thp.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -25,11 +31,13 @@ import com.hemaapp.thp.activity.SuggestionActivity;
 import com.hemaapp.thp.activity.VipOperationActivity;
 import com.hemaapp.thp.activity.WebViewActivity;
 import com.hemaapp.thp.base.JhFragment;
+import com.hemaapp.thp.base.JhHttpInformation;
 import com.hemaapp.thp.base.JhctmApplication;
 import com.hemaapp.thp.model.User;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomTimeUtil;
 
 /**
@@ -57,7 +65,8 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
     private LinearLayout layout_year;
     private ScrollView login_layout;
     private TextView goto_login;
-
+    private DeleteView deleteView;//清空
+    private TextView login_text;//退出
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_my);
@@ -89,19 +98,52 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
 
     @Override
     protected void callBeforeDataBack(HemaNetTask hemaNetTask) {
+        JhHttpInformation information = (JhHttpInformation) hemaNetTask.getHttpInformation();
+        switch (information) {
+            case CLIENT_LOGINOUT:
+                showProgressDialog("退出登录");
+                break;
+            case CLIENT_GET:
 
+                break;
+        }
     }
 
     @Override
     protected void callAfterDataBack(HemaNetTask hemaNetTask) {
-
+        JhHttpInformation information = (JhHttpInformation) hemaNetTask.getHttpInformation();
+        switch (information) {
+            case CLIENT_LOGINOUT:
+                cancelProgressDialog();
+                break;
+            case CLIENT_GET:
+                break;
+        }
     }
 
     @Override
     protected void callBackForServerSuccess(HemaNetTask hemaNetTask, HemaBaseResult hemaBaseResult) {
-        HemaArrayResult<User> result = (HemaArrayResult<User>) hemaBaseResult;
-        User user = result.getObjects().get(0);
-        setData(user);
+        JhHttpInformation information = (JhHttpInformation) hemaNetTask.getHttpInformation();
+        switch (information) {
+            case CLIENT_LOGINOUT:
+                JhctmApplication.getInstance().setUser(null);
+                XtomSharedPreferencesUtil.save(getActivity(), "username", "");// 清空用户名
+                XtomSharedPreferencesUtil.save(getActivity(), "password", "");// 青空密码
+                XtomSharedPreferencesUtil.save(getActivity(), "autoLogin", "");
+                //XtomSharedPreferencesUtil.save(getActivity(), "city_name", "");
+                // XtomActivityManager.finishAll();
+                getActivity().finish();
+                Intent it = new Intent(getActivity(), LoginActivity.class);
+                it.putExtra("keytype", "1");
+                startActivity(it);
+                break;
+            case CLIENT_GET:
+                HemaArrayResult<User> result = (HemaArrayResult<User>) hemaBaseResult;
+                User user = result.getObjects().get(0);
+                setData(user);
+                break;
+        }
+
     }
 
     /**
@@ -141,7 +183,7 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
             vip_name.setText("高级VIP");
             vip_name_text.setText("高级VIP");
             input_year.setText(user.getLevel_name()
-                     + "到期");
+                    + "到期");
         }
     }
 
@@ -152,7 +194,16 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
 
     @Override
     protected void callBackForGetDataFailed(HemaNetTask hemaNetTask, int i) {
-        showTextDialog("获取用户信息失败，请稍后重试");
+
+        JhHttpInformation information = (JhHttpInformation) hemaNetTask.getHttpInformation();
+        switch (information) {
+            case CLIENT_LOGINOUT:
+                showTextDialog("退出登录失败，请稍后重试");
+                break;
+            case CLIENT_GET:
+                showTextDialog("获取用户信息失败，请稍后重试");
+                break;
+        }
     }
 
     @Override
@@ -177,6 +228,7 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
         layout_year = (LinearLayout) findViewById(R.id.layout_year);
         login_layout = (ScrollView) findViewById(R.id.login_layout);
         goto_login = (TextView) findViewById(R.id.goto_login);
+        login_text = (TextView) findViewById(R.id.login_text);
     }
 
     @Override
@@ -193,11 +245,17 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
         layout_set.setOnClickListener(this);
         change_user.setOnClickListener(this);
         layout_year.setOnClickListener(this);
+        login_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDelete();
+            }
+        });
         goto_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
-                intent.putExtra("keytype","1");
+                intent.putExtra("keytype", "1");
                 getActivity().startActivity(intent);
             }
         });
@@ -256,4 +314,54 @@ public class MyFragment extends JhFragment implements View.OnClickListener {
                 break;
         }
     }
+
+    private class DeleteView {
+        TextView close_pop;
+        TextView yas_pop;
+        TextView text;
+        TextView iphone_number;
+    }
+
+    private void showDelete() {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_show_hint, null);
+        deleteView = new DeleteView();
+        deleteView.close_pop = (TextView) view.findViewById(R.id.close_pop);
+        deleteView.yas_pop = (TextView) view.findViewById(R.id.yas_pop);
+        deleteView.iphone_number = (TextView) view.findViewById(R.id.iphone_number);
+        deleteView.text = (TextView) view.findViewById(R.id.text);
+        deleteView.iphone_number.setVisibility(View.GONE);
+        deleteView.text.setText("确定要退出软件吗");
+        deleteView.text.setTextColor(getResources().getColor(R.color.black));
+        final PopupWindow popupWindow = new PopupWindow(view,
+                RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT);
+        deleteView.close_pop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        deleteView.yas_pop.setOnClickListener(new View.OnClickListener() {
+                                                  @Override
+                                                  public void onClick(View v) {
+                                                      popupWindow.dismiss();
+                                                      String token = JhctmApplication.getInstance().getUser().getToken();
+                                                      getNetWorker().clientLoginout(token);
+                                                  }
+
+
+                                              }
+        );
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setWidth(RadioGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(RadioGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(new
+                BitmapDrawable()
+        );
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // popupWindow.showAsDropDown(findViewById(R.id.ll_item));
+        popupWindow.setAnimationStyle(R.style.PopupAnimation);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
 }

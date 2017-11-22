@@ -146,6 +146,7 @@ public class SettingActivity extends JhActivity {
             }
         });
         //退出登录
+        login_text.setVisibility(View.INVISIBLE);
         login_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

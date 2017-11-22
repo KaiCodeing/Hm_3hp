@@ -139,7 +139,8 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
                 String adsshow = XtomSharedPreferencesUtil.get(mContext, "adsshow");
                 if (isNull(adsshow)) {
                     finish();
-                    toAds();
+//                    toAds();
+                    toLogin();
                 }
                 else {
                     checkLogin();

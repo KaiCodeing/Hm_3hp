@@ -14,12 +14,12 @@
         android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
         <LinearLayout
-
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:orientation="vertical">
 
             <LinearLayout
@@ -137,6 +137,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_tel"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -418,7 +419,20 @@
                     android:textSize="@dimen/textsize_8" />
             </LinearLayout>
 
-
+            <TextView
+                android:id="@+id/login_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="35dp"
+                android:text="退出"
+                android:textColor="@color/backgroud_title"
+                android:textSize="@dimen/textsize_8"
+                android:gravity="center"
+                android:background="@drawable/exit_sh_"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
         </LinearLayout>
 
     </ScrollView>

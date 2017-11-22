@@ -32,10 +32,18 @@ public class Tender extends XtomObject implements Serializable {
     private String status;
     private String tenderdemoname;
     private String windemoname;
+    private String agency;
+    private String tender;
+    private String gctype;
+    private String cgtype;
     public Tender(JSONObject jsonObject) throws DataParseException {
         if (jsonObject != null) {
             try {
                 id = get(jsonObject, "id");
+                agency = get(jsonObject, "agency");
+                tender = get(jsonObject, "tender");
+                gctype = get(jsonObject, "gctype");
+                cgtype = get(jsonObject, "cgtype");
                 province = get(jsonObject, "province");
                 keytype = get(jsonObject, "keytype");
                 city = get(jsonObject, "city");
@@ -62,13 +70,30 @@ public class Tender extends XtomObject implements Serializable {
         }
     }
 
+    public String getAgency() {
+        return agency;
+    }
+
+    public String getCgtype() {
+        return cgtype;
+    }
+
+    public String getGctype() {
+        return gctype;
+    }
+
+    public String getTender() {
+        return tender;
+    }
+
     @Override
     public String toString() {
         return "Tender{" +
-                "area='" + area + '\'' +
+                "agency='" + agency + '\'' +
                 ", id='" + id + '\'' +
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
+                ", area='" + area + '\'' +
                 ", name='" + name + '\'' +
                 ", signuptime='" + signuptime + '\'' +
                 ", endtime='" + endtime + '\'' +
@@ -85,6 +110,9 @@ public class Tender extends XtomObject implements Serializable {
                 ", status='" + status + '\'' +
                 ", tenderdemoname='" + tenderdemoname + '\'' +
                 ", windemoname='" + windemoname + '\'' +
+                ", tender='" + tender + '\'' +
+                ", gctype='" + gctype + '\'' +
+                ", cgtype='" + cgtype + '\'' +
                 '}';
     }
 

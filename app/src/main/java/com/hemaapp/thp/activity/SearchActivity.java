@@ -54,16 +54,17 @@ public class SearchActivity extends JhActivity {
     private String district2 = "";//市id
     private String district3 = "";//区id
     private String Loaction;
+    private TextView search_goto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_search);
         super.onCreate(savedInstanceState);
         client = SearchDBClient.get(mContext);
-        if (JhctmApplication.getInstance().getCityInfo() == null)
+//        if (JhctmApplication.getInstance().getCityInfo() == null)
             getNetWorker().districtALLList();
-        else {
-            getNetWorker().typeGet("1");
-        }
+//        else {
+//            getNetWorker().typeGet("1");
+//        }
     }
 
     @Override
@@ -340,6 +341,7 @@ public class SearchActivity extends JhActivity {
         cg_fly = (FlowLayout) findViewById(R.id.cg_fly);
         history_fly = (FlowLayout) findViewById(R.id.history_fly);
         add_user = (TextView) findViewById(R.id.add_user);
+        search_goto = (TextView) findViewById(R.id.search_goto);
     }
 
     @Override
@@ -356,8 +358,9 @@ public class SearchActivity extends JhActivity {
             }
         });
         title_text.setText("搜索");
+        next_button.setVisibility(View.INVISIBLE);
         //搜索
-        next_button.setOnClickListener(new View.OnClickListener() {
+        search_goto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String type = "1";
@@ -367,7 +370,7 @@ public class SearchActivity extends JhActivity {
                     type = "2";
                 String search = search_input.getText().toString().trim();
                 if (!isNull(search))
-                select_search_str(search);
+                    select_search_str(search);
                 //获取购买数量
                 StringBuffer gctypeid = new StringBuffer();
                 StringBuffer cgtypeid = new StringBuffer();
@@ -388,27 +391,26 @@ public class SearchActivity extends JhActivity {
                 int m = cgtypeid.length();
                 if (!cgtypeid.toString().equals("") || cgtypeid.toString().length() != 0)
                     cgtype = cgtypeid.substring(0, cgtypeid.length() - 1);
-                String typeid ="";
-                if (gctype==null && cgtype==null)
-                    typeid="";
-                else if(gctype==null && cgtype!=null)
+                String typeid = "";
+                if (gctype == null && cgtype == null)
+                    typeid = "";
+                else if (gctype == null && cgtype != null)
                     typeid = cgtype;
-                else if(gctype!=null && cgtype==null)
-                    typeid=gctype;
+                else if (gctype != null && cgtype == null)
+                    typeid = gctype;
                 else
-                    typeid = gctype+","+cgtype;
-                log_i("+++++++++++++++++++++++++++++++"+typeid);
-                if (isNull(Loaction))
-                {
+                    typeid = gctype + "," + cgtype;
+                log_i("+++++++++++++++++++++++++++++++" + typeid);
+                if (isNull(Loaction)) {
                     showTextDialog("请选择地区");
                     return;
                 }
-                Intent intent = new Intent(mContext,SearchResultActivity.class);
-                intent.putExtra("type",type);
+                Intent intent = new Intent(mContext, SearchResultActivity.class);
+                intent.putExtra("type", type);
 
-                intent.putExtra("address",Loaction);
-                intent.putExtra("keywords",search);
-                intent.putExtra("typeid",typeid);
+                intent.putExtra("address", Loaction);
+                intent.putExtra("keywords", search);
+                intent.putExtra("typeid", typeid);
                 startActivity(intent);
 
             }
@@ -434,7 +436,10 @@ public class SearchActivity extends JhActivity {
      */
     public void Clear_HistoryList() {
         client.clear();
-        search_strs.clear();
+        if (search_strs == null) {
+        } else {
+            search_strs.clear();
+        }
         // adapter.notifyDataSetChanged();
         setHistory();
     }

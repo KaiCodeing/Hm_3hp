@@ -136,7 +136,7 @@ public class InformationActivity extends JhActivity {
                 }
                 break;
             case SENDEMAIL:
-               showDelete(4);
+                showDelete(4);
                 break;
         }
     }
@@ -194,7 +194,7 @@ public class InformationActivity extends JhActivity {
                 tj.setText(tender.getConditions());
                 fj_text.setText("招标公告:");
                 fj.setText(tender.getTenderdemoname());
-                String path = sys_web_service + "webview/parm/tendercontent/id/"+id;
+                String path = sys_web_service + "webview/parm/tendercontent/id/" + id;
                 webview.loadUrl(path);
             }
             //中标
@@ -209,15 +209,27 @@ public class InformationActivity extends JhActivity {
                 dl_layout.setVisibility(View.GONE);
                 fj_text.setText("中标公告:");
                 fj.setText(tender.getWindemoname());
-                String path = sys_web_service + "webview/parm/wincontent/id/"+id;
+                String path = sys_web_service + "webview/parm/wincontent/id/" + id;
                 webview.loadUrl(path);
             }
             no_vip_layout.setVisibility(View.GONE);
         }
-        if ("1".equals(tender.getKeytype()))
-            type_name.setText("工程信息-" + tender.getType());
-        else
-            type_name.setText("采购信息-" + tender.getType());
+//        if ("1".equals(tender.getKeytype()))
+//            type_name.setText("工程信息-" + tender.getType());
+//        else
+//            type_name.setText("采购信息-" + tender.getType());
+        if (isNull(tender.getCgtype())) {
+            if (isNull(tender.getGctype()))
+                type_name.setText("无");
+            else
+                type_name.setText(tender.getGctype());
+        } else {
+            if (isNull(tender.getGctype()))
+                type_name.setText(tender.getCgtype());
+            else
+                type_name.setText(tender.getCgtype() + " " + tender.getGctype());
+        }
+
 
         //VIP
         login_text.setOnClickListener(new View.OnClickListener() {
@@ -245,13 +257,9 @@ public class InformationActivity extends JhActivity {
                     //判断VIP
                     if (user.getFeeaccount().equals("1")) {
                         showDelete(3);
-                    }
-                    else if(user.getFeeaccount().equals("2"))
-                    {
+                    } else if (user.getFeeaccount().equals("2")) {
                         showDelete(2);
-                    }
-                    else
-                    {
+                    } else {
                         showDelete(1);
                     }
                 }
@@ -262,7 +270,7 @@ public class InformationActivity extends JhActivity {
             @Override
             public void onClick(View v) {
                 String token = JhctmApplication.getInstance().getUser().getToken();
-                getNetWorker().sendemail(token,tender.getId());
+                getNetWorker().sendemail(token, tender.getId());
             }
         });
     }

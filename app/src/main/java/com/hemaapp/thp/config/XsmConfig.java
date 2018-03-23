@@ -7,7 +7,7 @@ public class XsmConfig {
     /**
      * 是否打印信息开关
      */
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     /**
      * 是否启用友盟统计
      */

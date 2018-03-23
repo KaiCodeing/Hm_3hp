@@ -140,7 +140,8 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
                 if (isNull(adsshow)) {
                     finish();
 //                    toAds();
-                    toLogin();
+                 //   toLogin();
+                    checkLogin();
                 }
                 else {
                     checkLogin();
@@ -316,7 +317,7 @@ public class StartActivity extends JhActivity implements AMapLocationListener {
                 JhNetWorker netWorker = getNetWorker();
                 netWorker.clientLogin(username, password);
             } else {
-                toMain();
+                toLogin();
             }
         } else {
             toMain();

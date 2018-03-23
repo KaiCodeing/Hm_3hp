@@ -103,8 +103,8 @@ public class LoginActivity extends JhActivity {
         if (isNull(XtomSharedPreferencesUtil.get(mContext, "cityselect"))) {
             intent = new Intent(mContext, SelectProvinceActivity.class);
             intent.putExtra("main", "1");
+            startActivity(intent);
         } else {
-
             if (!isNull(keytype)) {
                 finish();
                 Intent intent1 = new Intent();
